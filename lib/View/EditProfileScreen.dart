@@ -10,9 +10,9 @@ class EditProfileScreen extends StatefulWidget {
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _nameController = TextEditingController(text: 'John Doe');
-  final _phoneController = TextEditingController(text: '+880 12345690');
-  final _addressController = TextEditingController(text: 'Mirpur 11');
+  final _nameController = TextEditingController(text: 'Shivam Duba');
+  final _phoneController = TextEditingController(text: '+880 ######');
+  final _addressController = TextEditingController(text: 'Jharkhnad 11');
   
   String _selectedCountry = 'India';
   String _selectedState = 'Gujarat';
@@ -217,7 +217,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               ),
               child: const Center(
                 child: Text(
-                  '🇧🇩',
+                  'Ind',
                   style: TextStyle(fontSize: 16),
                 ),
               ),

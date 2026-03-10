@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:glamorous/profile/ContactUsPage.dart';
+import '../profile/AppInfoPage.dart';
 import 'EditProfileScreen.dart';
 import 'AboutUsScreen.dart';
 import 'HomeScreen.dart';
+import 'OffersPage.dart';
+import 'cart_page.dart';
+import 'order_page.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -15,14 +20,14 @@ class ProfileScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            _buildQuickAccessIcons(),
+            _buildQuickAccessIcons(context),
             const SizedBox(height: 16),
             _buildMenuList(context),
             const SizedBox(height: 20),
           ],
         ),
       ),
-      bottomNavigationBar: _buildBottomNavigationBar(context),
+
     );
   }
 
@@ -39,7 +44,7 @@ class ProfileScreen extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           const Text(
-            'ShopUs',
+            'Glamorous',
             style: TextStyle(
               color: Colors.white,
               fontSize: 20,
@@ -48,7 +53,7 @@ class ProfileScreen extends StatelessWidget {
           ),
           const Spacer(),
           const Text(
-            'John Doe',
+            'Shivam Duba',
             style: TextStyle(
               color: Colors.white,
               fontSize: 16,
@@ -90,10 +95,9 @@ class ProfileScreen extends StatelessWidget {
       ),
     );
   }
-
-  Widget _buildQuickAccessIcons() {
+  Widget _buildQuickAccessIcons(BuildContext context) {
     final quickAccessItems = [
-      {'name': 'Other', 'icon': Icons.shopping_bag_outlined},
+      {'name': 'Order', 'icon': Icons.shopping_bag_outlined},
       {'name': 'Cart', 'icon': Icons.shopping_cart_outlined},
       {'name': 'Offers', 'icon': Icons.card_giftcard_outlined},
       {'name': 'Wishlist', 'icon': Icons.favorite_outline},
@@ -117,47 +121,77 @@ class ProfileScreen extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: quickAccessItems.map((item) {
-          return _buildQuickAccessItem(item['name'] as String, item['icon'] as IconData);
+          return _buildQuickAccessItem(
+            context,
+            item['name'] as String,
+            item['icon'] as IconData,
+          );
         }).toList(),
       ),
     );
   }
+  Widget _buildQuickAccessItem(
+      BuildContext context, String name, IconData icon) {
 
-  Widget _buildQuickAccessItem(String name, IconData icon) {
-    return Column(
-      children: [
-        Container(
-          width: 60,
-          height: 60,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            shape: BoxShape.circle,
-            border: Border.all(color: const Color(0xFF8B2A9B), width: 2),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.2),
-                spreadRadius: 1,
-                blurRadius: 4,
-                offset: const Offset(0, 2),
-              ),
-            ],
+    return GestureDetector(
+      onTap: () {
+
+        if (name == "Order") {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const OrderPage(),
+            ),
+          );
+        }
+        else if (name == "Cart") {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const CartPage(),
+            ),
+          );
+        }
+        else if (name == "Offers") {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const OffersPage(),
+            ),
+          );
+        }
+
+      },
+
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: Colors.blue.shade50,
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              icon,
+              color: Colors.blue,
+              size: 24,
+            ),
           ),
-          child: Icon(
-            icon,
-            color: const Color(0xFF8B2A9B),
-            size: 28,
+
+          const SizedBox(height: 6),
+
+          Text(
+            name,
+            style: const TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w500,
+            ),
           ),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          name,
-          style: const TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.w500,
-            color: Colors.black,
-          ),
-        ),
-      ],
+
+        ],
+      ),
     );
   }
 
@@ -176,17 +210,38 @@ class ProfileScreen extends StatelessWidget {
       {
         'title': 'Terms And Conditions',
         'icon': Icons.description_outlined,
-        'onTap': () {},
+        'onTap': () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AppInfoPage(),
+            ),
+          );
+        },
       },
       {
         'title': 'Privacy Policy',
         'icon': Icons.lock_outline,
-        'onTap': () {},
+        'onTap': () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AppInfoPage(),
+            ),
+          );
+        },
       },
       {
         'title': 'FAQ',
         'icon': Icons.help_outline,
-        'onTap': () {},
+        'onTap': () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AppInfoPage(),
+            ),
+          );
+        },
       },
       {
         'title': 'About Us',
@@ -201,12 +256,26 @@ class ProfileScreen extends StatelessWidget {
       {
         'title': 'Contact Us',
         'icon': Icons.phone_outlined,
-        'onTap': () {},
+        'onTap': () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const ContactUsPage(),
+            ),
+          );
+        },
       },
       {
         'title': 'App Info',
         'icon': Icons.info_outline,
-        'onTap': () {},
+        'onTap': () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AppInfoPage(),
+            ),
+          );
+        },
       },
     ];
 
@@ -267,55 +336,4 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildBottomNavigationBar(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: const Color(0xFFE1BEE7),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
-            spreadRadius: 1,
-            blurRadius: 5,
-            offset: const Offset(0, -2),
-          ),
-        ],
-      ),
-      child: BottomNavigationBar(
-        currentIndex: 2, // Profile is active
-        onTap: (index) {
-          if (index == 0) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const HomeScreen()),
-            );
-          }
-          // Order and Profile navigation can be added here
-        },
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        selectedItemColor: const Color(0xFF8B2A9B),
-        unselectedItemColor: Colors.grey,
-        selectedFontSize: 12,
-        unselectedFontSize: 12,
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            activeIcon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_bag_outlined),
-            activeIcon: Icon(Icons.shopping_bag),
-            label: 'Order',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
-            activeIcon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
-      ),
-    );
-  }
 }

@@ -35,8 +35,8 @@ class _SplashScreenState extends State<SplashScreen> {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Color(0xFF8B2A9B), // Magenta/Purple
-              Color(0xFF6A1B9A), // Darker Purple
+              Color(0xFF000000),
+              Color(0xFF1C1C1C),
             ],
           ),
         ),
@@ -55,12 +55,12 @@ class _SplashScreenState extends State<SplashScreen> {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: Border.all(
-                        color: Colors.white.withOpacity(0.3),
+                        color:  const Color(0xFFD4AF37).withOpacity(0.4),
                         width: 3,
                       ),
                     ),
                     child: const CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                      valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFD4AF37)),
                       strokeWidth: 3,
                     ),
                   ),
@@ -68,7 +68,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   const Icon(
                     Icons.shopping_bag_outlined,
                     size: 60,
-                    color: Colors.white,
+                    color: Color(0xFFD4AF37),
                   ),
                 ],
               ),
@@ -79,14 +79,14 @@ class _SplashScreenState extends State<SplashScreen> {
                 children: [
                   const Icon(
                     Icons.shopping_bag,
-                    color: Colors.white,
+                    color: Color(0xFFD4AF37),
                     size: 24,
                   ),
                   const SizedBox(width: 8),
                   const Text(
                     'ShopUs',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: Color(0xFFFFE082),
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
                     ),
