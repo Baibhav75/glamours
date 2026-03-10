@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme/app_colors.dart';
 import 'add_address_page.dart';
 import 'map_location_picker.dart';
 
@@ -68,7 +69,7 @@ class _SelectAddressSheetState extends State<SelectAddressSheet> {
 
           /// ADD NEW ADDRESS
           ListTile(
-            leading: const Icon(Icons.add_location_alt, color: Colors.purple),
+            leading: const Icon(Icons.add_location_alt, color: AppColors.primaryGold),
             title: const Text("Add New Address"),
             onTap: () {
               Navigator.push(
@@ -82,7 +83,7 @@ class _SelectAddressSheetState extends State<SelectAddressSheet> {
 
           /// CURRENT LOCATION
           ListTile(
-            leading: const Icon(Icons.my_location, color: Colors.purple),
+            leading: const Icon(Icons.my_location, color: AppColors.primaryGold),
             title: const Text("Use Current Location"),
 
             onTap: () async {
@@ -125,7 +126,7 @@ class _SelectAddressSheetState extends State<SelectAddressSheet> {
       child: Row(
         children: [
 
-          const Icon(Icons.location_on, color: Colors.purple),
+          const Icon(Icons.location_on, color: AppColors.primaryGold),
 
           const SizedBox(width: 10),
 

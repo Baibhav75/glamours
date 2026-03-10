@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../ViewSection/ProductDetailsPage.dart';
+import '../ViewSection/ShoeSection.dart';
+import '../ViewSection/SweatersSection.dart';
+import '../ViewSection/ElectronicsSection.dart';
+import '../ViewSection/FoodSection.dart';
 import '../widgetsection/best_seller_section.dart';
 import '../widgetsection/new_arrivals_section.dart';
 import '../widgetsection/promotional_banner.dart';
 import '../widgetsection/top_selling_section.dart';
 import '../widgetsection/weekly_best_sell_section.dart';
 import '../Services/cart_service.dart';
+import '../theme/app_colors.dart';
 import 'cart_page.dart';
 import 'ProfileScreen.dart';
 import 'order_page.dart';
@@ -19,9 +24,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  static const Color black = Color(0xFF000000);
-  static const Color gold = Color(0xFFD4AF37);
-  static const Color lightGold = Color(0xFFFFF3C4);
   int _currentIndex = 0;
 
   late final List<Widget> _screens;
@@ -131,7 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black,
+                  color: AppColors.textBlack,
                 ),
               ),
               TextButton(
@@ -139,7 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: const Text(
                   'See all',
                   style: TextStyle(
-                    color: Colors.black,
+                    color: AppColors.textBlack,
                     fontSize: 14,
                   ),
                 ),
@@ -165,42 +167,74 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // Category Card
   Widget _buildCategoryCard(Map<String, dynamic> category) {
-    return Container(
-      width: 90,
-      margin: const EdgeInsets.only(right: 12),
-      decoration: BoxDecoration(
-        color: Colors.black,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            spreadRadius: 1,
-            blurRadius: 3,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            category['icon'] as IconData,
-            color: category['color'] as Color,
-            size: 32,
-          ),
-          const SizedBox(height: 8),
-          Text(
-            category['name'] as String,
-            style: const TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-              color: Colors.white,
+    return GestureDetector(
+      onTap: () {
+        _navigateToCategory(category['name'] as String);
+      },
+      child: Container(
+        width: 90,
+        margin: const EdgeInsets.only(right: 12),
+        decoration: BoxDecoration(
+          color: AppColors.backgroundBlack,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.1),
+              spreadRadius: 1,
+              blurRadius: 3,
+              offset: const Offset(0, 2),
             ),
-          ),
-        ],
+          ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              category['icon'] as IconData,
+              color: category['color'] as Color,
+              size: 32,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              category['name'] as String,
+              style: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+                color: AppColors.textWhite,
+              ),
+            ),
+          ],
+        ),
       ),
     );
+  }
 
+  void _navigateToCategory(String categoryName) {
+    Widget? categoryPage;
+    
+    switch (categoryName) {
+      case 'Shoe':
+        categoryPage = const ShoeSection();
+        break;
+      case 'Sweaters':
+        categoryPage = const SweatersSection();
+        break;
+      case 'Electronics':
+        categoryPage = const ElectronicsSection();
+        break;
+      case 'Food':
+        categoryPage = const FoodSection();
+        break;
+      default:
+        return; // Do nothing for other categories
+    }
+    
+    if (categoryPage != null) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => categoryPage!),
+      );
+    }
   }
 
 
@@ -219,7 +253,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black,
+                  color: AppColors.textBlack,
                 ),
               ),
               TextButton(
@@ -227,7 +261,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: const Text(
                   'See all',
                   style: TextStyle(
-                    color: Colors.black,
+                    color: AppColors.textBlack,
                     fontSize: 14,
                   ),
                 ),
@@ -270,7 +304,7 @@ class _HomeScreenState extends State<HomeScreen> {
       },
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.backgroundWhite,
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
@@ -351,7 +385,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           "₹${product['discountPrice']}",
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: Color(0xFF8B2A9B),
+                            color: AppColors.primaryGold,
                           ),
                         ),
                       ],
@@ -408,7 +442,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildBottomNavigationBar() {
     return Container(
       decoration: BoxDecoration(
-        color: black,
+        color: AppColors.backgroundBlack,
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.3),
@@ -427,7 +461,7 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         backgroundColor: Colors.transparent,
         elevation: 0,
-        selectedItemColor: gold,
+        selectedItemColor: AppColors.accentGold,
         unselectedItemColor: Colors.white70,
         selectedFontSize: 12,
         unselectedFontSize: 12,
@@ -461,7 +495,7 @@ class _HomeScreenState extends State<HomeScreen> {
         Container(
           height: 150,
           decoration: const BoxDecoration(
-            color: black, // Your theme purple
+            color: AppColors.backgroundBlack,
             borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(30),
               bottomRight: Radius.circular(30),
@@ -476,7 +510,7 @@ class _HomeScreenState extends State<HomeScreen> {
               const Text(
                 'Glamorous',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: AppColors.textWhite,
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
                 ),
@@ -502,7 +536,7 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.only(top: 110, left: 20, right: 20),
           child: Container(
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.textWhite,
               borderRadius: BorderRadius.circular(15),
               boxShadow: [
                 BoxShadow(
@@ -522,10 +556,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 suffixIcon: Container(
                   margin: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: gold.withOpacity(0.15),
+                    color: AppColors.accentGold.withOpacity(0.15),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Icon(Icons.tune, color: gold, size: 20),
+                  child: const Icon(Icons.tune, color: AppColors.accentGold, size: 20),
                 ),
                 border: InputBorder.none,
                 contentPadding: const EdgeInsets.symmetric(vertical: 15),
@@ -553,7 +587,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 top: 0,
                 child: Container(
                   padding: const EdgeInsets.all(4),
-                  decoration: const BoxDecoration(color: Color(0xFF000000), shape: BoxShape.circle),
+                  decoration: const BoxDecoration(color: AppColors.backgroundBlack, shape: BoxShape.circle),
                   constraints: const BoxConstraints(minWidth: 16, minHeight: 16),
                   child: Text('$cartCount', style: const TextStyle(color: Colors.white, fontSize: 10), textAlign: TextAlign.center),
                 ),
@@ -567,7 +601,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.backgroundWhite,
       body: _screens[_currentIndex],
       bottomNavigationBar: _buildBottomNavigationBar(),
     );

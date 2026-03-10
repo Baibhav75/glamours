@@ -3,71 +3,71 @@ import 'package:cached_network_image/cached_network_image.dart';
 import '../theme/app_colors.dart';
 import 'ProductDetailsPage.dart';
 
-class FoodSection extends StatefulWidget {
-  const FoodSection({super.key});
+class ElectronicsSection extends StatefulWidget {
+  const ElectronicsSection({super.key});
 
   @override
-  State<FoodSection> createState() => _FoodSectionState();
+  State<ElectronicsSection> createState() => _ElectronicsSectionState();
 }
 
-class _FoodSectionState extends State<FoodSection> {
+class _ElectronicsSectionState extends State<ElectronicsSection> {
   String _selectedFilter = 'All';
   final TextEditingController _searchController = TextEditingController();
 
   final List<Map<String, dynamic>> _products = [
     {
-      'name': 'Organic Honey',
-      'image': 'https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=400&q=80',
+      'name': 'Wireless Earbuds',
+      'image': 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400&q=80',
+      'originalPrice': 199.99,
+      'discountPrice': 149.99,
+      'rating': 4.6,
+      'reviews': 1234,
+      'brand': 'Sony',
+    },
+    {
+      'name': 'Smart Watch',
+      'image': 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&q=80',
+      'originalPrice': 299.99,
+      'discountPrice': 229.99,
+      'rating': 4.7,
+      'reviews': 856,
+      'brand': 'Apple',
+    },
+    {
+      'name': 'Bluetooth Speaker',
+      'image': 'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400&q=80',
+      'originalPrice': 149.99,
+      'discountPrice': 99.99,
+      'rating': 4.5,
+      'reviews': 567,
+      'brand': 'JBL',
+    },
+    {
+      'name': 'Power Bank',
+      'image': 'https://images.unsplash.com/photo-1609091839311-d5365f9ff1c7?w=400&q=80',
+      'originalPrice': 79.99,
+      'discountPrice': 54.99,
+      'rating': 4.4,
+      'reviews': 432,
+      'brand': 'Anker',
+    },
+    {
+      'name': 'USB-C Cable',
+      'image': 'https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=400&q=80',
       'originalPrice': 29.99,
       'discountPrice': 19.99,
-      'rating': 4.6,
-      'reviews': 456,
-      'category': 'Organic',
-    },
-    {
-      'name': 'Premium Coffee',
-      'image': 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=400&q=80',
-      'originalPrice': 39.99,
-      'discountPrice': 29.99,
-      'rating': 4.7,
-      'reviews': 789,
-      'category': 'Beverages',
-    },
-    {
-      'name': 'Dark Chocolate',
-      'image': 'https://images.unsplash.com/photo-1606312619070-d48d4cc7a98f?w=400&q=80',
-      'originalPrice': 24.99,
-      'discountPrice': 16.99,
-      'rating': 4.5,
+      'rating': 4.3,
       'reviews': 234,
-      'category': 'Snacks',
+      'brand': 'Belkin',
     },
     {
-      'name': 'Olive Oil',
-      'image': 'https://images.unsplash.com/photo-1474979266404-7eaacb8a73f9?w=400&q=80',
-      'originalPrice': 49.99,
-      'discountPrice': 34.99,
-      'rating': 4.8,
-      'reviews': 567,
-      'category': 'Cooking',
-    },
-    {
-      'name': 'Protein Bars',
-      'image': 'https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=400&q=80',
-      'originalPrice': 19.99,
-      'discountPrice': 14.99,
-      'rating': 4.4,
-      'reviews': 345,
-      'category': 'Health',
-    },
-    {
-      'name': 'Spice Mix',
-      'image': 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=400&q=80',
-      'originalPrice': 14.99,
-      'discountPrice': 9.99,
-      'rating': 4.6,
+      'name': 'Phone Case',
+      'image': 'https://images.unsplash.com/photo-1556656793-08538906a9f8?w=400&q=80',
+      'originalPrice': 39.99,
+      'discountPrice': 24.99,
+      'rating': 4.5,
       'reviews': 678,
-      'category': 'Spices',
+      'brand': 'Spigen',
     },
   ];
 
@@ -115,7 +115,7 @@ class _FoodSectionState extends State<FoodSection> {
       foregroundColor: AppColors.textWhite,
       flexibleSpace: FlexibleSpaceBar(
         title: const Text(
-          'Food & Beverages',
+          'Electronics',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 20,
@@ -137,7 +137,7 @@ class _FoodSectionState extends State<FoodSection> {
             child: TextField(
               controller: _searchController,
               decoration: InputDecoration(
-                hintText: 'Search food items...',
+                hintText: 'Search electronics...',
                 hintStyle: TextStyle(color: Colors.grey.shade400),
                 prefixIcon: Icon(Icons.search, color: Colors.grey.shade400),
                 border: InputBorder.none,
@@ -171,7 +171,7 @@ class _FoodSectionState extends State<FoodSection> {
             right: -20,
             top: -20,
             child: Icon(
-              Icons.fastfood,
+              Icons.devices,
               size: 150,
               color: Colors.white.withOpacity(0.2),
             ),
@@ -183,7 +183,7 @@ class _FoodSectionState extends State<FoodSection> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  'FRESH & ORGANIC',
+                  'TECH DEALS',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 12,
@@ -193,7 +193,7 @@ class _FoodSectionState extends State<FoodSection> {
                 ),
                 const SizedBox(height: 8),
                 const Text(
-                  'Premium Food',
+                  'Latest Gadgets',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 24,
@@ -202,7 +202,7 @@ class _FoodSectionState extends State<FoodSection> {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Healthy Choices',
+                  'Premium Electronics',
                   style: TextStyle(
                     color: Colors.white.withOpacity(0.9),
                     fontSize: 14,
@@ -238,20 +238,20 @@ class _FoodSectionState extends State<FoodSection> {
           ),
           const SizedBox(width: 8),
           Expanded(
-            child: _buildFilterChip('Organic', _selectedFilter == 'Organic', () {
-              setState(() => _selectedFilter = 'Organic');
+            child: _buildFilterChip('Audio', _selectedFilter == 'Audio', () {
+              setState(() => _selectedFilter = 'Audio');
             }),
           ),
           const SizedBox(width: 8),
           Expanded(
-            child: _buildFilterChip('Snacks', _selectedFilter == 'Snacks', () {
-              setState(() => _selectedFilter = 'Snacks');
+            child: _buildFilterChip('Mobile', _selectedFilter == 'Mobile', () {
+              setState(() => _selectedFilter = 'Mobile');
             }),
           ),
           const SizedBox(width: 8),
           Expanded(
-            child: _buildFilterChip('Beverages', _selectedFilter == 'Beverages', () {
-              setState(() => _selectedFilter = 'Beverages');
+            child: _buildFilterChip('Accessories', _selectedFilter == 'Accessories', () {
+              setState(() => _selectedFilter = 'Accessories');
             }),
           ),
         ],
@@ -360,9 +360,9 @@ class _FoodSectionState extends State<FoodSection> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Category
+                    // Brand
                     Text(
-                      product['category'],
+                      product['brand'],
                       style: TextStyle(
                         fontSize: 10,
                         color: Colors.grey.shade600,

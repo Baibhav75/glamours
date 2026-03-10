@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme/app_colors.dart';
 
 class ContactUsPage extends StatefulWidget {
   const ContactUsPage({super.key});
@@ -125,17 +126,17 @@ class _ContactUsPageState extends State<ContactUsPage> {
 
             /// Contact Info
             const ListTile(
-              leading: Icon(Icons.email, color: Colors.purple),
+              leading: Icon(Icons.email, color: AppColors.primaryGold),
               title: Text("support@glamorous.com"),
             ),
 
             const ListTile(
-              leading: Icon(Icons.phone, color: Colors.purple),
+              leading: Icon(Icons.phone, color: AppColors.primaryGold),
               title: Text("+91 9876543210"),
             ),
 
             const ListTile(
-              leading: Icon(Icons.location_on, color: Colors.purple),
+              leading: Icon(Icons.location_on, color: AppColors.primaryGold),
               title: Text("India"),
             ),
 

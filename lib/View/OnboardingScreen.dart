@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'SignInScreen.dart';
+import '../theme/app_colors.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -18,7 +19,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       title: 'Choose product',
       description:
           'Topcommerce is a online store. Its has into the 50k+ Products, you can buy every into a products in easy way.',
-      imageColor: const Color(0xFFFFB6C1), // Pink background
+      imageColor: AppColors.onboardingDark, // Dark background with gold accents
       icon: Icons.shopping_cart_outlined,
       imageUrl: 'https://images.unsplash.com/photo-1556742502-ec7c0e9f34b1?w=800&q=80', // Shopping women
     ),
@@ -26,7 +27,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       title: 'Make Payment',
       description:
           'Topcommerce is a online store. Its has into the 50k+ Products, you can buy every into a products in easy way.',
-      imageColor: const Color(0xFFADD8E6), // Light blue background
+      imageColor: AppColors.onboardingDark, // Dark background with gold accents
       icon: Icons.payment_outlined,
       imageUrl: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80', // Payment/shopping
     ),
@@ -34,7 +35,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       title: 'Enjoy Shoping',
       description:
           'Topcommerce is a online store. Its has into the 50k+ Products, you can buy every into a products in easy way.',
-      imageColor: const Color(0xFFDDA0DD), // Light purple background
+      imageColor: AppColors.onboardingDark, // Dark background with gold accents
       icon: Icons.shopping_bag_outlined,
       imageUrl: 'https://images.unsplash.com/photo-1556742502-ec7c0e9f34b1?w=800&q=80', // Happy shopping
     ),
@@ -109,7 +110,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     child: ElevatedButton(
                       onPressed: _nextPage,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF8B2A9B), // Magenta/Purple
+                        backgroundColor: AppColors.primaryGold,
+                        foregroundColor: AppColors.textBlack,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16),
                         ),
@@ -131,7 +133,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     child: const Text(
                       'Skip for Now',
                       style: TextStyle(
-                        color: Colors.black,
+                        color: AppColors.textBlack,
                         fontSize: 16,
                       ),
                     ),
@@ -184,7 +186,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         ),
                       ),
                     ),
-                    // Gradient overlay
+                    // Gradient overlay with gold accent
                     Container(
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
@@ -192,7 +194,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           end: Alignment.bottomCenter,
                           colors: [
                             Colors.transparent,
-                            data.imageColor.withOpacity(0.7),
+                            AppColors.backgroundBlack.withOpacity(0.8),
+                            AppColors.primaryGold.withOpacity(0.3),
                           ],
                         ),
                       ),
@@ -209,7 +212,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   clipper: CurvedClipper(),
                   child: Container(
                     height: 60,
-                    color: Colors.white,
+                    color: AppColors.backgroundWhite,
                   ),
                 ),
               ),
@@ -221,7 +224,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           flex: 2,
           child: Container(
             width: double.infinity,
-            color: Colors.white,
+            color: AppColors.backgroundWhite,
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -232,7 +235,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   style: const TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black,
+                    color: AppColors.textBlack,
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -240,7 +243,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   data.description,
                   style: const TextStyle(
                     fontSize: 16,
-                    color: Colors.black87,
+                    color: AppColors.textBlack,
                     height: 1.5,
                   ),
                 ),
@@ -259,8 +262,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       height: 8,
       decoration: BoxDecoration(
         color: isActive
-            ? const Color(0xFF8B2A9B)
-            : const Color(0xFF8B2A9B).withOpacity(0.3),
+            ? AppColors.primaryGold
+            : AppColors.primaryGold.withOpacity(0.3),
         borderRadius: BorderRadius.circular(4),
       ),
     );

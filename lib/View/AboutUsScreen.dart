@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import '../theme/app_colors.dart';
 
 class AboutUsScreen extends StatelessWidget {
   const AboutUsScreen({super.key});
@@ -9,7 +10,7 @@ class AboutUsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey.shade50,
       appBar: AppBar(
-        backgroundColor: const Color(0xFF8B2A9B),
+        backgroundColor: AppColors.backgroundBlack,
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
@@ -69,7 +70,7 @@ class AboutUsScreen extends StatelessWidget {
               width: 70,
               height: 70,
               decoration: BoxDecoration(
-                color: const Color(0xFF8B2A9B),
+                color: AppColors.primaryGold,
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(

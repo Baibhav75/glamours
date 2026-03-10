@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import '../theme/app_colors.dart';
 
 class PromotionalBanner extends StatefulWidget {
   const PromotionalBanner({super.key});
@@ -47,7 +48,7 @@ class _PromotionalBannerState extends State<PromotionalBanner> {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
-        color: const Color(0xFFADD8E6),
+        gradient: AppColors.darkGradient,
         borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
@@ -62,9 +63,9 @@ class _PromotionalBannerState extends State<PromotionalBanner> {
                 children: [
                   Text(
                     'UP TO 70% OFF',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 12,
-                      color: Colors.purple.shade700,
+                      color: AppColors.primaryGold,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -74,6 +75,7 @@ class _PromotionalBannerState extends State<PromotionalBanner> {
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
+                      color: AppColors.textWhite,
                     ),
                   ),
                   const Text(
@@ -81,21 +83,21 @@ class _PromotionalBannerState extends State<PromotionalBanner> {
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
+                      color: AppColors.textWhite,
                     ),
                   ),
                   const SizedBox(height: 12),
                   ElevatedButton(
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF8B2A9B),
+                      backgroundColor: AppColors.primaryGold,
+                      foregroundColor: AppColors.textBlack,
                     ),
                     child: const Text(
                       'Shop Now >',
                       style: TextStyle(
-                        color: Colors.white,
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
-
                       ),)
                   ),
                 ],
@@ -134,7 +136,7 @@ class _PromotionalBannerState extends State<PromotionalBanner> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(4),
             color: _currentBannerPage == index
-                ? const Color(0xFF8B2A9B)
+                ? AppColors.primaryGold
                 : Colors.grey.shade300,
           ),
         ),

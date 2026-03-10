@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'SignInScreen.dart';
 import 'HomeScreen.dart';
+import '../theme/app_colors.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -49,7 +50,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               height: MediaQuery.of(context).size.height * 0.4,
               child: Container(
                 decoration: const BoxDecoration(
-                  color: Color(0xFFADD8E6), // Light blue
+                  gradient: AppColors.darkGradient, // Dark gradient
                 ),
                 child: Center(
                   child: Icon(
@@ -68,7 +69,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               top: MediaQuery.of(context).size.height * 0.35,
               child: Container(
                 decoration: const BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.backgroundWhite,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(30),
                     topRight: Radius.circular(30),
@@ -88,7 +89,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           style: TextStyle(
                             fontSize: 28,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                            color: AppColors.textBlack,
                           ),
                         ),
                         const SizedBox(height: 24),
@@ -110,7 +111,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w400,
-                                    color: Colors.grey,
+                                    color: AppColors.textGray,
                                   ),
                                 ),
                               ),
@@ -125,14 +126,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600,
-                                        color: Color(0xFF8B2A9B),
+                                        color: AppColors.primaryGold,
                                       ),
                                     ),
                                     const SizedBox(height: 8),
                                     Container(
                                       height: 3,
                                       decoration: const BoxDecoration(
-                                        color: Color(0xFF8B2A9B),
+                                        color: AppColors.primaryGold,
                                         borderRadius: BorderRadius.all(
                                           Radius.circular(2),
                                         ),
@@ -151,19 +152,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           decoration: InputDecoration(
                             labelText: 'Username',
                             filled: true,
-                            fillColor: Colors.white,
+                            fillColor: AppColors.backgroundWhite,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
-                              borderSide: const BorderSide(color: Colors.grey),
+                              borderSide: const BorderSide(color: AppColors.borderGray),
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
-                              borderSide: const BorderSide(color: Colors.grey),
+                              borderSide: const BorderSide(color: AppColors.borderGray),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
                               borderSide: const BorderSide(
-                                color: Color(0xFF8B2A9B),
+                                color: AppColors.primaryGold,
                                 width: 2,
                               ),
                             ),
@@ -183,19 +184,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           decoration: InputDecoration(
                             labelText: 'Email',
                             filled: true,
-                            fillColor: Colors.white,
+                            fillColor: AppColors.backgroundWhite,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
-                              borderSide: const BorderSide(color: Colors.grey),
+                              borderSide: const BorderSide(color: AppColors.borderGray),
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
-                              borderSide: const BorderSide(color: Colors.grey),
+                              borderSide: const BorderSide(color: AppColors.borderGray),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
                               borderSide: const BorderSide(
-                                color: Color(0xFF8B2A9B),
+                                color: AppColors.primaryGold,
                                 width: 2,
                               ),
                             ),
@@ -218,19 +219,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           decoration: InputDecoration(
                             labelText: 'Password',
                             filled: true,
-                            fillColor: Colors.white,
+                            fillColor: AppColors.backgroundWhite,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
-                              borderSide: const BorderSide(color: Colors.grey),
+                              borderSide: const BorderSide(color: AppColors.borderGray),
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
-                              borderSide: const BorderSide(color: Colors.grey),
+                              borderSide: const BorderSide(color: AppColors.borderGray),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
                               borderSide: const BorderSide(
-                                color: Color(0xFF8B2A9B),
+                                color: AppColors.primaryGold,
                                 width: 2,
                               ),
                             ),
@@ -268,7 +269,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   _rememberMe = value ?? false;
                                 });
                               },
-                              activeColor: const Color(0xFF8B2A9B),
+                              activeColor: AppColors.primaryGold,
                               checkColor: Colors.white,
                             ),
                             const Text(
@@ -285,7 +286,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           child: ElevatedButton(
                             onPressed: _handleSignUp,
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF8B2A9B),
+                              backgroundColor: AppColors.primaryGold,
+                              foregroundColor: AppColors.textBlack,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(16),
                               ),
@@ -303,11 +305,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         const SizedBox(height: 24),
                         // Social login
                         const Center(
-                          child: Text(
+                          child: const Text(
                             'Sign in With Social',
                             style: TextStyle(
                               fontSize: 14,
-                              color: Colors.grey,
+                              color: AppColors.textGray,
                             ),
                           ),
                         ),

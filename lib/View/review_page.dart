@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme/app_colors.dart';
 
 class ReviewPage extends StatefulWidget {
   const ReviewPage({super.key});
@@ -17,6 +18,8 @@ class _ReviewPageState extends State<ReviewPage> {
 
       appBar: AppBar(
         title: const Text("Back to Shop"),
+        backgroundColor: AppColors.backgroundBlack,
+        foregroundColor: AppColors.textWhite,
       ),
 
       body: Padding(
@@ -52,7 +55,7 @@ class _ReviewPageState extends State<ReviewPage> {
                   icon: Icon(
                     Icons.star,
                     color: index < rating
-                        ? Colors.yellow
+                        ? AppColors.accentGold
                         : Colors.grey,
                   ),
                 ),
@@ -75,6 +78,10 @@ class _ReviewPageState extends State<ReviewPage> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: (){},
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.accentGold,
+                  foregroundColor: AppColors.textBlack,
+                ),
                 child: const Text("Submit Review"),
               ),
             ),
@@ -84,7 +91,10 @@ class _ReviewPageState extends State<ReviewPage> {
             Center(
               child: TextButton(
                 onPressed: (){},
-                child: const Text("Not Now"),
+                child: const Text(
+                  "Not Now",
+                  style: TextStyle(color: AppColors.accentGold),
+                ),
               ),
             )
 

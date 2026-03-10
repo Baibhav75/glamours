@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme/app_colors.dart';
 
 class AboutUsScreen extends StatelessWidget {
   const AboutUsScreen({super.key});
@@ -9,6 +10,8 @@ class AboutUsScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text("About Us"),
         centerTitle: true,
+        backgroundColor: AppColors.backgroundBlack,
+        foregroundColor: AppColors.textWhite,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -21,7 +24,7 @@ class AboutUsScreen extends StatelessWidget {
                 child: Icon(
                   Icons.shopping_bag,
                   size: 80,
-                  color: Color(0xFF8B2A9B),
+                  color: AppColors.primaryGold,
                 ),
               ),
 
@@ -88,17 +91,17 @@ class AboutUsScreen extends StatelessWidget {
               const SizedBox(height: 10),
 
               const ListTile(
-                leading: Icon(Icons.email, color: Color(0xFF8B2A9B)),
+                leading: Icon(Icons.email, color: AppColors.accentGold),
                 title: Text("support@glamorous.com"),
               ),
 
               const ListTile(
-                leading: Icon(Icons.phone, color: Color(0xFF8B2A9B)),
+                leading: Icon(Icons.phone, color: AppColors.accentGold),
                 title: Text("+91 9876543210"),
               ),
 
               const ListTile(
-                leading: Icon(Icons.location_on, color: Color(0xFF8B2A9B)),
+                leading: Icon(Icons.location_on, color: AppColors.accentGold),
                 title: Text("India"),
               ),
 

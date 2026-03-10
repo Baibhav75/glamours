@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../Services/cart_service.dart';
+import '../theme/app_colors.dart';
 
 class CartPage extends StatefulWidget {
 
@@ -99,7 +100,8 @@ class _CartPageState extends State<CartPage> {
                                   Text(
                                     "₹$priceStr",
                                     style: const TextStyle(
-                                        color: Colors.pink
+                                        color: AppColors.primaryGold,
+                                        fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ],
@@ -168,7 +170,8 @@ class _CartPageState extends State<CartPage> {
 
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.purple,
+                        backgroundColor: AppColors.primaryGold,
+                        foregroundColor: AppColors.textBlack,
                       ),
                       onPressed: () {
                         Navigator.pushNamed(context, "checkout");

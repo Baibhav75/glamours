@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme/app_colors.dart';
 
 class TermsAndConditionsPage extends StatelessWidget {
   const TermsAndConditionsPage({super.key});
@@ -9,6 +10,8 @@ class TermsAndConditionsPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Terms & Conditions"),
         centerTitle: true,
+        backgroundColor: AppColors.backgroundBlack,
+        foregroundColor: AppColors.textWhite,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),

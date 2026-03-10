@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme/app_colors.dart';
 import 'HomeScreen.dart';
 
 class SuccessDialog extends StatelessWidget {
@@ -23,7 +24,7 @@ class SuccessDialog extends StatelessWidget {
                 const Icon(
                   Icons.lock,
                   size: 80,
-                  color: Color(0xFF8B2A9B),
+                  color: AppColors.primaryGold,
                 ),
                 // Green circle with checkmark
                 Positioned(
@@ -79,7 +80,8 @@ class SuccessDialog extends StatelessWidget {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF8B2A9B),
+                  backgroundColor: AppColors.primaryGold,
+                  foregroundColor: AppColors.textBlack,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import '../theme/app_colors.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
@@ -31,7 +32,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     return Scaffold(
       backgroundColor: Colors.grey.shade50,
       appBar: AppBar(
-        backgroundColor: const Color(0xFF8B2A9B),
+        backgroundColor: AppColors.backgroundBlack,
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
@@ -129,7 +130,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           height: 120,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            border: Border.all(color: const Color(0xFF8B2A9B), width: 3),
+            border: Border.all(color: AppColors.primaryGold, width: 3),
           ),
           child: ClipOval(
             child: CachedNetworkImage(
@@ -153,7 +154,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             width: 36,
             height: 36,
             decoration: BoxDecoration(
-              color: const Color(0xFF8B2A9B),
+              color: AppColors.primaryGold,
               shape: BoxShape.circle,
               border: Border.all(color: Colors.white, width: 3),
             ),
@@ -177,21 +178,21 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       controller: controller,
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: const TextStyle(color: Color(0xFF8B2A9B)),
-        prefixIcon: Icon(icon, color: const Color(0xFF8B2A9B)),
+        labelStyle: const TextStyle(color: AppColors.primaryGold),
+        prefixIcon: Icon(icon, color: AppColors.primaryGold),
         filled: true,
         fillColor: Colors.white,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Color(0xFF8B2A9B)),
+          borderSide: const BorderSide(color: AppColors.primaryGold),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Color(0xFF8B2A9B)),
+          borderSide: const BorderSide(color: AppColors.primaryGold),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Color(0xFF8B2A9B), width: 2),
+          borderSide: const BorderSide(color: AppColors.primaryGold, width: 2),
         ),
       ),
     );
@@ -203,7 +204,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       keyboardType: TextInputType.phone,
       decoration: InputDecoration(
         labelText: 'Phone',
-        labelStyle: const TextStyle(color: Color(0xFF8B2A9B)),
+        labelStyle: const TextStyle(color: AppColors.primaryGold),
         prefixIcon: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -223,22 +224,22 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               ),
             ),
             const SizedBox(width: 8),
-            const Icon(Icons.phone_outlined, color: Color(0xFF8B2A9B)),
+            const Icon(Icons.phone_outlined, color: AppColors.primaryGold),
           ],
         ),
         filled: true,
         fillColor: Colors.white,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Color(0xFF8B2A9B)),
+          borderSide: const BorderSide(color: AppColors.primaryGold),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Color(0xFF8B2A9B)),
+          borderSide: const BorderSide(color: AppColors.primaryGold),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Color(0xFF8B2A9B), width: 2),
+          borderSide: const BorderSide(color: AppColors.primaryGold, width: 2),
         ),
       ),
     );
@@ -254,21 +255,21 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       value: value,
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: const TextStyle(color: Color(0xFF8B2A9B)),
-        prefixIcon: const Icon(Icons.location_on_outlined, color: Color(0xFF8B2A9B)),
+        labelStyle: const TextStyle(color: AppColors.primaryGold),
+        prefixIcon: const Icon(Icons.location_on_outlined, color: AppColors.primaryGold),
         filled: true,
         fillColor: Colors.white,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Color(0xFF8B2A9B)),
+          borderSide: const BorderSide(color: AppColors.primaryGold),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Color(0xFF8B2A9B)),
+          borderSide: const BorderSide(color: AppColors.primaryGold),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Color(0xFF8B2A9B), width: 2),
+          borderSide: const BorderSide(color: AppColors.primaryGold, width: 2),
         ),
       ),
       items: items.map((item) {
@@ -291,14 +292,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 content: Text('Profile updated successfully!'),
-                backgroundColor: Color(0xFF8B2A9B),
+                backgroundColor: AppColors.primaryGold,
               ),
             );
             Navigator.pop(context);
           }
         },
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFF8B2A9B),
+          backgroundColor: AppColors.backgroundBlack,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),

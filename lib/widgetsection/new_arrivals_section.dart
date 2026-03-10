@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../ViewSection/ProductDetailsPage.dart';
+import '../theme/app_colors.dart';
 
 class NewArrivalsSection extends StatefulWidget {
   const NewArrivalsSection({super.key});
@@ -81,7 +82,7 @@ class _NewArrivalsSectionState extends State<NewArrivalsSection> {
               margin: const EdgeInsets.symmetric(horizontal: 4),
               decoration: BoxDecoration(
                 color: _currentPage == index
-                    ? const Color(0xFF8B2A9B)
+                    ? AppColors.primaryGold
                     : Colors.grey.shade300,
                 borderRadius: BorderRadius.circular(4),
               ),
@@ -255,7 +256,7 @@ class _NewArrivalsSectionState extends State<NewArrivalsSection> {
                         product["price"]!,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFF8B2A9B),
+                          color: AppColors.primaryGold,
                         ),
                       ),
                       const Spacer(),
@@ -264,12 +265,12 @@ class _NewArrivalsSectionState extends State<NewArrivalsSection> {
                         width: 26,
                         height: 26,
                         decoration: BoxDecoration(
-                          color: const Color(0xFF8B2A9B),
+                          color: AppColors.primaryGold,
                           borderRadius: BorderRadius.circular(6),
                         ),
                         child: const Icon(
                           Icons.add,
-                          color: Colors.white,
+                          color: AppColors.textBlack,
                           size: 16,
                         ),
                       )

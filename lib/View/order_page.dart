@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import '../theme/app_colors.dart';
 import 'order_details_page.dart';
 
 class OrderPage extends StatefulWidget {
@@ -71,7 +71,7 @@ class _OrderPageState extends State<OrderPage> {
                     ),
                     decoration: BoxDecoration(
                       color: selected
-                          ? const Color(0xFF8B2A9B)
+                          ? AppColors.primaryGold
                           : Colors.grey.shade200,
                       borderRadius: BorderRadius.circular(20),
                     ),
@@ -79,7 +79,7 @@ class _OrderPageState extends State<OrderPage> {
                       tabs[index],
                       style: TextStyle(
                         color: selected
-                            ? Colors.white
+                            ? AppColors.textBlack
                             : Colors.black,
                       ),
                     ),
@@ -138,7 +138,10 @@ class _OrderPageState extends State<OrderPage> {
 
                       Container(
                         padding: const EdgeInsets.all(8),
-                        color: Colors.purple.shade50,
+                        decoration: BoxDecoration(
+                          color: AppColors.primaryGold.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
                         child: Text(
                           "Order Tracking Number : ${item["track"]}",
                         ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme/app_colors.dart';
 
 class OffersPage extends StatelessWidget {
   const OffersPage({super.key});
@@ -67,12 +68,12 @@ class OffersPage extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: Colors.purple.shade50,
+                    color: AppColors.primaryGold.withOpacity(0.1),
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(
                     Icons.local_offer,
-                    color: Colors.purple,
+                    color: AppColors.primaryGold,
                   ),
                 ),
 
@@ -107,13 +108,13 @@ class OffersPage extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 10, vertical: 4),
                         decoration: BoxDecoration(
-                          border: Border.all(color: Colors.purple),
+                          border: Border.all(color: AppColors.primaryGold),
                           borderRadius: BorderRadius.circular(6),
                         ),
                         child: Text(
                           offer["code"]!,
                           style: const TextStyle(
-                            color: Colors.purple,
+                            color: AppColors.primaryGold,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -135,7 +136,7 @@ class OffersPage extends StatelessWidget {
                   child: const Text(
                     "Apply",
                     style: TextStyle(
-                      color: Colors.purple,
+                      color: AppColors.primaryGold,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

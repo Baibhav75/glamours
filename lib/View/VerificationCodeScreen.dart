@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import '../theme/app_colors.dart';
 import 'SuccessDialog.dart';
 
 class VerificationCodeScreen extends StatefulWidget {
@@ -68,7 +69,7 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
               height: MediaQuery.of(context).size.height * 0.4,
               child: Container(
                 decoration: const BoxDecoration(
-                  color: Color(0xFFDDA0DD), // Light purple
+                  gradient: AppColors.darkGradient, // Dark gradient
                 ),
                 child: Stack(
                   fit: StackFit.expand,
@@ -78,7 +79,7 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                       imageUrl: 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=800&q=80', // Confused/questioning person image
                       fit: BoxFit.cover,
                       placeholder: (context, url) => Container(
-                        color: const Color(0xFFDDA0DD),
+                        color: AppColors.backgroundDarkGray,
                         child: Center(
                           child: CircularProgressIndicator(
                             valueColor: AlwaysStoppedAnimation<Color>(
@@ -88,7 +89,7 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                         ),
                       ),
                       errorWidget: (context, url, error) => Container(
-                        color: const Color(0xFFDDA0DD),
+                        color: AppColors.backgroundDarkGray,
                         child: Center(
                           child: Icon(
                             Icons.help_outline,
@@ -106,7 +107,8 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                           end: Alignment.bottomCenter,
                           colors: [
                             Colors.transparent,
-                            const Color(0xFFDDA0DD).withOpacity(0.7),
+                            AppColors.backgroundBlack.withOpacity(0.8),
+                            AppColors.primaryGold.withOpacity(0.2),
                           ],
                         ),
                       ),
@@ -181,7 +183,7 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
                                   borderSide: const BorderSide(
-                                    color: Color(0xFF8B2A9B),
+                                    color: AppColors.primaryGold,
                                     width: 2,
                                   ),
                                 ),
@@ -202,7 +204,8 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                         child: ElevatedButton(
                           onPressed: _handleContinue,
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF8B2A9B),
+                            backgroundColor: AppColors.primaryGold,
+                            foregroundColor: AppColors.textBlack,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(16),
                             ),

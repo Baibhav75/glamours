@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '  payment_page.dart';
 import '../location/select_address_sheet.dart';
+import '../theme/app_colors.dart';
 
 class OrderSummaryScreen extends StatefulWidget {
   final Map<dynamic, dynamic> product;
@@ -48,12 +49,12 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Order Summary'),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
+        backgroundColor: AppColors.backgroundWhite,
+        foregroundColor: AppColors.textBlack,
         elevation: 0,
       ),
 
-      backgroundColor: Colors.grey.shade100,
+      backgroundColor: AppColors.backgroundLightGray,
 
       body: SingleChildScrollView(
         child: Column(
@@ -61,7 +62,7 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
 
             /// DELIVERY ADDRESS
             Container(
-              color: Colors.white,
+              color: AppColors.backgroundWhite,
               padding: const EdgeInsets.all(16),
               margin: const EdgeInsets.only(bottom: 8),
 
@@ -116,14 +117,14 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
                           const EdgeInsets.symmetric(
                               horizontal: 12),
                           side: const BorderSide(
-                            color: Color(0xFF90278E),
+                            color: AppColors.accentGold,
                           ),
                         ),
 
                         child: const Text(
                           "Change",
                           style: TextStyle(
-                            color: Color(0xFF90278E),
+                            color: AppColors.accentGold,
                           ),
                         ),
                       )
@@ -156,7 +157,7 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
 
             /// PRODUCT INFO
             Container(
-              color: Colors.white,
+              color: AppColors.backgroundWhite,
               padding: const EdgeInsets.all(16),
               margin: const EdgeInsets.only(bottom: 8),
 
@@ -273,7 +274,7 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
 
             /// PRICE DETAILS
             Container(
-              color: Colors.white,
+              color: AppColors.backgroundWhite,
               padding: const EdgeInsets.all(16),
               margin: const EdgeInsets.only(bottom: 80),
 
@@ -365,7 +366,7 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
             horizontal: 16, vertical: 12),
 
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.backgroundWhite,
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.05),
@@ -400,7 +401,7 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
                   const Text(
                     "View price details",
                     style: TextStyle(
-                      color: Color(0xFF90278E),
+                      color: AppColors.accentGold,
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
                     ),
@@ -426,8 +427,7 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
               },
 
                 style: ElevatedButton.styleFrom(
-                  backgroundColor:
-                  const Color(0xFFf9a825),
+                  backgroundColor: AppColors.accentGold,
                   padding: const EdgeInsets.symmetric(
                       horizontal: 32, vertical: 14),
                 ),

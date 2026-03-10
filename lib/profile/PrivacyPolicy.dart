@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme/app_colors.dart';
 
 class PrivacyPolicyPage extends StatelessWidget {
   const PrivacyPolicyPage({super.key});
@@ -9,6 +10,8 @@ class PrivacyPolicyPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Privacy Policy"),
         centerTitle: true,
+        backgroundColor: AppColors.backgroundBlack,
+        foregroundColor: AppColors.textWhite,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),

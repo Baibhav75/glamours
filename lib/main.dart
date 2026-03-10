@@ -4,6 +4,7 @@ import 'View/SplashScreen.dart';
 import 'View/cart_page.dart';
 import 'View/checkout_page.dart';
 import 'location/map_location_picker.dart';
+import 'theme/app_colors.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,10 +20,24 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF8B2A9B),
+          seedColor: AppColors.primaryGold,
           brightness: Brightness.light,
         ),
         useMaterial3: true,
+        primaryColor: AppColors.primaryGold,
+        scaffoldBackgroundColor: AppColors.backgroundWhite,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: AppColors.backgroundBlack,
+          foregroundColor: AppColors.textWhite,
+          elevation: 0,
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: AppColors.primaryGold,
+            foregroundColor: AppColors.textBlack,
+            elevation: 2,
+          ),
+        ),
       ),
       home: const SplashScreen(),
         routes: {

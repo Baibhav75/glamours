@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme/app_colors.dart';
 import 'review_page.dart';
 
 class OrderDetailsPage extends StatelessWidget {
@@ -7,12 +8,12 @@ class OrderDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade100,
+      backgroundColor: AppColors.backgroundLightGray,
 
       appBar: AppBar(
         title: const Text("Single Order"),
-        backgroundColor: const Color(0xFF8B2A9B),
-        foregroundColor: Colors.white,
+        backgroundColor: AppColors.backgroundBlack,
+        foregroundColor: AppColors.textWhite,
         elevation: 0,
       ),
 
@@ -21,7 +22,7 @@ class OrderDetailsPage extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: AppColors.backgroundWhite,
             borderRadius: BorderRadius.circular(12),
             boxShadow: const [
               BoxShadow(
@@ -58,7 +59,7 @@ class OrderDetailsPage extends StatelessWidget {
               const Text(
                 "₹20.0",
                 style: TextStyle(
-                  color: Color(0xFF8B2A9B),
+                  color: AppColors.primaryGold,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
@@ -70,7 +71,7 @@ class OrderDetailsPage extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: Colors.purple.shade50,
+                  color: AppColors.primaryGold.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: const Text(
@@ -110,7 +111,8 @@ class OrderDetailsPage extends StatelessWidget {
                 height: 50,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF8B2A9B),
+                    backgroundColor: AppColors.primaryGold,
+                    foregroundColor: AppColors.textBlack,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import '../theme/app_colors.dart';
 
 class TopSellingSection extends StatelessWidget {
   const TopSellingSection({super.key});
@@ -79,7 +80,7 @@ class TopSellingSection extends StatelessWidget {
                           ],
                         ),
                       ),
-                      const Icon(Icons.add_circle, color: Colors.purple)
+                      Icon(Icons.add_circle, color: AppColors.primaryGold)
                     ],
                   ),
                 );

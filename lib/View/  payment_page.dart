@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
+import '../theme/app_colors.dart';
 
 class PaymentPage extends StatefulWidget {
   const PaymentPage({super.key});
@@ -73,6 +74,8 @@ class _PaymentPageState extends State<PaymentPage> {
       appBar: AppBar(
         title: const Text("Checkout"),
         centerTitle: true,
+        backgroundColor: AppColors.backgroundBlack,
+        foregroundColor: AppColors.textWhite,
       ),
 
       body: Padding(
@@ -87,9 +90,7 @@ class _PaymentPageState extends State<PaymentPage> {
               padding: const EdgeInsets.all(20),
 
               decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [Color(0xff4A00E0), Color(0xff8E2DE2)],
-                ),
+                gradient: AppColors.goldGradient,
                 borderRadius: BorderRadius.circular(18),
 
                 boxShadow: [
@@ -153,7 +154,7 @@ class _PaymentPageState extends State<PaymentPage> {
               child: ListTile(
                 leading: const Icon(
                   Icons.payment,
-                  color: Colors.blue,
+                  color: AppColors.accentGold,
                   size: 30,
                 ),
 
@@ -182,6 +183,8 @@ class _PaymentPageState extends State<PaymentPage> {
                 onPressed: openCheckout,
 
                 style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.accentGold,
+                  foregroundColor: AppColors.textBlack,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(14),

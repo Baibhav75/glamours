@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:glamorous/profile/ContactUsPage.dart';
 import '../profile/AppInfoPage.dart';
+import '../theme/app_colors.dart';
 import 'EditProfileScreen.dart';
 import 'AboutUsScreen.dart';
 import 'HomeScreen.dart';
@@ -33,7 +34,7 @@ class ProfileScreen extends StatelessWidget {
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return AppBar(
-      backgroundColor: const Color(0xFF8B2A9B),
+      backgroundColor: AppColors.backgroundBlack,
       elevation: 0,
       automaticallyImplyLeading: false,
       title: Row(
@@ -170,12 +171,13 @@ class ProfileScreen extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: Colors.blue.shade50,
+              color: AppColors.backgroundDarkGray,
               shape: BoxShape.circle,
+              border: Border.all(color: AppColors.primaryGold.withOpacity(0.3)),
             ),
             child: Icon(
               icon,
-              color: Colors.blue,
+              color: AppColors.primaryGold,
               size: 24,
             ),
           ),
@@ -310,7 +312,7 @@ class ProfileScreen extends StatelessWidget {
     return Column(
       children: [
         ListTile(
-          leading: Icon(icon, color: const Color(0xFF8B2A9B)),
+          leading: Icon(icon, color: AppColors.primaryGold),
           title: Text(
             title,
             style: const TextStyle(

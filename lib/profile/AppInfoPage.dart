@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme/app_colors.dart';
 
 class AppInfoPage extends StatelessWidget {
   const AppInfoPage({super.key});
@@ -9,6 +10,8 @@ class AppInfoPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text("App Info"),
         centerTitle: true,
+        backgroundColor: AppColors.backgroundBlack,
+        foregroundColor: AppColors.textWhite,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -22,7 +25,7 @@ class AppInfoPage extends StatelessWidget {
             const Icon(
               Icons.shopping_bag,
               size: 80,
-              color: Color(0xFF8B2A9B),
+              color: AppColors.primaryGold,
             ),
 
             const SizedBox(height: 10),
@@ -64,19 +67,19 @@ class AppInfoPage extends StatelessWidget {
 
             /// Developer Info
             const ListTile(
-              leading: Icon(Icons.person, color: Color(0xFF8B2A9B)),
+              leading: Icon(Icons.person, color: AppColors.accentGold),
               title: Text("Developer"),
               subtitle: Text("Shivam Duba"),
             ),
 
             const ListTile(
-              leading: Icon(Icons.email, color: Color(0xFF8B2A9B)),
+              leading: Icon(Icons.email, color: AppColors.accentGold),
               title: Text("Email"),
               subtitle: Text("support@glamorous.com"),
             ),
 
             const ListTile(
-              leading: Icon(Icons.language, color: Color(0xFF8B2A9B)),
+              leading: Icon(Icons.language, color: AppColors.accentGold),
               title: Text("Website"),
               subtitle: Text("www.glamorous.com"),
             ),

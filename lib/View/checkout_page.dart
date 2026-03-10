@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme/app_colors.dart';
 
 class CheckoutPage extends StatelessWidget {
   const CheckoutPage({super.key});
@@ -7,11 +8,13 @@ class CheckoutPage extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      backgroundColor: const Color(0xffF5F5F5),
+      backgroundColor: AppColors.backgroundLightGray,
 
       appBar: AppBar(
         title: const Text("Checkout"),
         centerTitle: true,
+        backgroundColor: AppColors.backgroundBlack,
+        foregroundColor: AppColors.textWhite,
         elevation: 0,
       ),
 
@@ -30,13 +33,13 @@ class CheckoutPage extends StatelessWidget {
                     margin: const EdgeInsets.symmetric(horizontal: 16),
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: AppColors.backgroundWhite,
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: const Row(
                       children: [
 
-                        Icon(Icons.location_on, color: Colors.purple),
+                        Icon(Icons.location_on, color: AppColors.primaryGold),
 
                         SizedBox(width: 10),
 
@@ -76,13 +79,13 @@ class CheckoutPage extends StatelessWidget {
                     margin: const EdgeInsets.symmetric(horizontal: 16),
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: AppColors.backgroundWhite,
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Row(
                       children: [
 
-                        const Icon(Icons.discount,color: Colors.purple),
+                        Icon(Icons.discount, color: AppColors.primaryGold),
 
                         const SizedBox(width: 10),
 
@@ -97,7 +100,8 @@ class CheckoutPage extends StatelessWidget {
 
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.purple,
+                            backgroundColor: AppColors.primaryGold,
+                            foregroundColor: AppColors.textBlack,
                           ),
                           onPressed: (){},
                           child: const Text("Apply"),
@@ -114,7 +118,7 @@ class CheckoutPage extends StatelessWidget {
                     margin: const EdgeInsets.symmetric(horizontal: 16),
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: AppColors.backgroundWhite,
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Column(
@@ -178,8 +182,8 @@ class CheckoutPage extends StatelessWidget {
           /// BOTTOM CHECKOUT BUTTON
           Container(
             padding: const EdgeInsets.all(16),
-            decoration: const BoxDecoration(
-              color: Colors.white,
+            decoration: BoxDecoration(
+              color: AppColors.backgroundWhite,
               boxShadow: [
                 BoxShadow(
                     blurRadius: 10,
@@ -192,7 +196,8 @@ class CheckoutPage extends StatelessWidget {
               height: 55,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.purple,
+                  backgroundColor: AppColors.primaryGold,
+                  foregroundColor: AppColors.textBlack,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),

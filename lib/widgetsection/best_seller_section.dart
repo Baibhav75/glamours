@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme/app_colors.dart';
 
 class BestSellerSection extends StatelessWidget {
   const BestSellerSection({super.key});
@@ -26,16 +27,17 @@ class BestSellerSection extends StatelessWidget {
                 width: 70,
                 height: 70,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFEEDCF1),
+                  color: AppColors.backgroundDarkGray,
                   borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: AppColors.primaryGold.withOpacity(0.3)),
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(item["icon"] as IconData, color: Colors.purple),
+                    Icon(item["icon"] as IconData, color: AppColors.primaryGold),
                     const SizedBox(height: 4),
                     Text(item["name"] as String,
-                        style: const TextStyle(fontSize: 10)),
+                        style: const TextStyle(fontSize: 10, color: AppColors.textWhite)),
                   ],
                 ),
               );

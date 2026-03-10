@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'OnboardingScreen.dart';
+import '../theme/app_colors.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -31,14 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF000000),
-              Color(0xFF1C1C1C),
-            ],
-          ),
+          gradient: AppColors.darkGradient,
         ),
         child: Center(
           child: Column(
@@ -55,12 +49,12 @@ class _SplashScreenState extends State<SplashScreen> {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: Border.all(
-                        color:  const Color(0xFFD4AF37).withOpacity(0.4),
+                        color: AppColors.accentGold.withOpacity(0.4),
                         width: 3,
                       ),
                     ),
                     child: const CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFD4AF37)),
+                      valueColor: AlwaysStoppedAnimation<Color>(AppColors.accentGold),
                       strokeWidth: 3,
                     ),
                   ),
@@ -68,7 +62,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   const Icon(
                     Icons.shopping_bag_outlined,
                     size: 60,
-                    color: Color(0xFFD4AF37),
+                    color: AppColors.accentGold,
                   ),
                 ],
               ),
@@ -79,14 +73,14 @@ class _SplashScreenState extends State<SplashScreen> {
                 children: [
                   const Icon(
                     Icons.shopping_bag,
-                    color: Color(0xFFD4AF37),
+                    color: AppColors.accentGold,
                     size: 24,
                   ),
                   const SizedBox(width: 8),
                   const Text(
                     'ShopUs',
                     style: TextStyle(
-                      color: Color(0xFFFFE082),
+                      color: AppColors.accentGoldLight,
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
                     ),
@@ -98,7 +92,7 @@ class _SplashScreenState extends State<SplashScreen> {
               const Text(
                 'Buy groceries and feed yourself',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: AppColors.textWhite,
                   fontSize: 16,
                   fontWeight: FontWeight.w300,
                 ),

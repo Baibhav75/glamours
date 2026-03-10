@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme/app_colors.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../ViewSection/ProductDetailsPage.dart';
 
@@ -134,7 +135,7 @@ class WeeklyBestSellSection extends StatelessWidget {
                                   item["price"]!,
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    color: Color(0xFF8B2A9B),
+                                    color: AppColors.primaryGold,
                                   ),
                                 ),
 
@@ -145,7 +146,7 @@ class WeeklyBestSellSection extends StatelessWidget {
                                   width: 26,
                                   height: 26,
                                   decoration: BoxDecoration(
-                                    color: const Color(0xFF8B2A9B),
+                                    color: AppColors.primaryGold,
                                     borderRadius: BorderRadius.circular(6),
                                   ),
                                   child: const Icon(

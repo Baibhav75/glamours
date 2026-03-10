@@ -2,72 +2,74 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../theme/app_colors.dart';
 import 'ProductDetailsPage.dart';
+import '../Services/cart_service.dart';
 
-class FoodSection extends StatefulWidget {
-  const FoodSection({super.key});
+class ShoeSection extends StatefulWidget {
+  const ShoeSection({super.key});
 
   @override
-  State<FoodSection> createState() => _FoodSectionState();
+  State<ShoeSection> createState() => _ShoeSectionState();
 }
 
-class _FoodSectionState extends State<FoodSection> {
+class _ShoeSectionState extends State<ShoeSection> {
+  String _selectedSort = 'Popularity';
   String _selectedFilter = 'All';
   final TextEditingController _searchController = TextEditingController();
 
   final List<Map<String, dynamic>> _products = [
     {
-      'name': 'Organic Honey',
-      'image': 'https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=400&q=80',
-      'originalPrice': 29.99,
-      'discountPrice': 19.99,
-      'rating': 4.6,
-      'reviews': 456,
-      'category': 'Organic',
-    },
-    {
-      'name': 'Premium Coffee',
-      'image': 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=400&q=80',
-      'originalPrice': 39.99,
-      'discountPrice': 29.99,
-      'rating': 4.7,
-      'reviews': 789,
-      'category': 'Beverages',
-    },
-    {
-      'name': 'Dark Chocolate',
-      'image': 'https://images.unsplash.com/photo-1606312619070-d48d4cc7a98f?w=400&q=80',
-      'originalPrice': 24.99,
-      'discountPrice': 16.99,
+      'name': 'Nike Air Max',
+      'image': 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&q=80',
+      'originalPrice': 129.99,
+      'discountPrice': 89.99,
       'rating': 4.5,
       'reviews': 234,
-      'category': 'Snacks',
+      'brand': 'Nike',
     },
     {
-      'name': 'Olive Oil',
-      'image': 'https://images.unsplash.com/photo-1474979266404-7eaacb8a73f9?w=400&q=80',
-      'originalPrice': 49.99,
-      'discountPrice': 34.99,
-      'rating': 4.8,
-      'reviews': 567,
-      'category': 'Cooking',
+      'name': 'Adidas Ultraboost',
+      'image': 'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=400&q=80',
+      'originalPrice': 149.99,
+      'discountPrice': 119.99,
+      'rating': 4.7,
+      'reviews': 189,
+      'brand': 'Adidas',
     },
     {
-      'name': 'Protein Bars',
-      'image': 'https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=400&q=80',
-      'originalPrice': 19.99,
-      'discountPrice': 14.99,
+      'name': 'Puma Running Shoes',
+      'image': 'https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=400&q=80',
+      'originalPrice': 99.99,
+      'discountPrice': 69.99,
+      'rating': 4.3,
+      'reviews': 156,
+      'brand': 'Puma',
+    },
+    {
+      'name': 'Reebok Classic',
+      'image': 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400&q=80',
+      'originalPrice': 89.99,
+      'discountPrice': 59.99,
       'rating': 4.4,
-      'reviews': 345,
-      'category': 'Health',
+      'reviews': 98,
+      'brand': 'Reebok',
     },
     {
-      'name': 'Spice Mix',
-      'image': 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=400&q=80',
-      'originalPrice': 14.99,
-      'discountPrice': 9.99,
+      'name': 'Vans Old Skool',
+      'image': 'https://images.unsplash.com/photo-1605348532760-6753d2aeb645?w=400&q=80',
+      'originalPrice': 79.99,
+      'discountPrice': 54.99,
       'rating': 4.6,
-      'reviews': 678,
-      'category': 'Spices',
+      'reviews': 312,
+      'brand': 'Vans',
+    },
+    {
+      'name': 'Converse Chuck Taylor',
+      'image': 'https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=400&q=80',
+      'originalPrice': 69.99,
+      'discountPrice': 49.99,
+      'rating': 4.5,
+      'reviews': 445,
+      'brand': 'Converse',
     },
   ];
 
@@ -115,7 +117,7 @@ class _FoodSectionState extends State<FoodSection> {
       foregroundColor: AppColors.textWhite,
       flexibleSpace: FlexibleSpaceBar(
         title: const Text(
-          'Food & Beverages',
+          'Shoes',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 20,
@@ -137,7 +139,7 @@ class _FoodSectionState extends State<FoodSection> {
             child: TextField(
               controller: _searchController,
               decoration: InputDecoration(
-                hintText: 'Search food items...',
+                hintText: 'Search shoes...',
                 hintStyle: TextStyle(color: Colors.grey.shade400),
                 prefixIcon: Icon(Icons.search, color: Colors.grey.shade400),
                 border: InputBorder.none,
@@ -171,7 +173,7 @@ class _FoodSectionState extends State<FoodSection> {
             right: -20,
             top: -20,
             child: Icon(
-              Icons.fastfood,
+              Icons.shopping_bag_outlined,
               size: 150,
               color: Colors.white.withOpacity(0.2),
             ),
@@ -183,7 +185,7 @@ class _FoodSectionState extends State<FoodSection> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  'FRESH & ORGANIC',
+                  'UP TO 50% OFF',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 12,
@@ -193,7 +195,7 @@ class _FoodSectionState extends State<FoodSection> {
                 ),
                 const SizedBox(height: 8),
                 const Text(
-                  'Premium Food',
+                  'Premium Footwear',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 24,
@@ -202,7 +204,7 @@ class _FoodSectionState extends State<FoodSection> {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Healthy Choices',
+                  'Best Quality Shoes',
                   style: TextStyle(
                     color: Colors.white.withOpacity(0.9),
                     fontSize: 14,
@@ -238,20 +240,20 @@ class _FoodSectionState extends State<FoodSection> {
           ),
           const SizedBox(width: 8),
           Expanded(
-            child: _buildFilterChip('Organic', _selectedFilter == 'Organic', () {
-              setState(() => _selectedFilter = 'Organic');
+            child: _buildFilterChip('Men', _selectedFilter == 'Men', () {
+              setState(() => _selectedFilter = 'Men');
             }),
           ),
           const SizedBox(width: 8),
           Expanded(
-            child: _buildFilterChip('Snacks', _selectedFilter == 'Snacks', () {
-              setState(() => _selectedFilter = 'Snacks');
+            child: _buildFilterChip('Women', _selectedFilter == 'Women', () {
+              setState(() => _selectedFilter = 'Women');
             }),
           ),
           const SizedBox(width: 8),
           Expanded(
-            child: _buildFilterChip('Beverages', _selectedFilter == 'Beverages', () {
-              setState(() => _selectedFilter = 'Beverages');
+            child: _buildFilterChip('Kids', _selectedFilter == 'Kids', () {
+              setState(() => _selectedFilter = 'Kids');
             }),
           ),
         ],
@@ -360,9 +362,9 @@ class _FoodSectionState extends State<FoodSection> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Category
+                    // Brand
                     Text(
-                      product['category'],
+                      product['brand'],
                       style: TextStyle(
                         fontSize: 10,
                         color: Colors.grey.shade600,

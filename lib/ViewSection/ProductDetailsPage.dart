@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import '../View/cart_page.dart';
 import '../View/OrderSummaryScreen.dart';
 import '../Services/cart_service.dart';
+import '../theme/app_colors.dart';
 
 class ProductDetailsPage extends StatefulWidget {
   final Map product;
@@ -17,16 +18,16 @@ class ProductDetailsPage extends StatefulWidget {
 class _ProductDetailsPageState extends State<ProductDetailsPage> {
   String _selectedTab = 'Description';
   String _selectedSize = 'XXL Size';
-  Color _selectedColor = const Color(0xFF4A4ECA); // default blue
+  Color _selectedColor = AppColors.accentGold; // default gold
   int _selectedThumbnailIndex = 0;
 
   late List<String> _thumbnails;
 
   final List<Color> _availableColors = [
-    const Color(0xFF4A4ECA),
-    const Color(0xFFE44498),
-    const Color(0xFF4DB6F6),
-    const Color(0xFFFFB300),
+    AppColors.accentGold,
+    AppColors.primaryGoldDark,
+    AppColors.primaryGoldLight,
+    AppColors.warningOrange,
   ];
 
   final List<String> _availableSizes = [
@@ -113,7 +114,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(
                           color: _selectedThumbnailIndex == index
-                              ? const Color(0xFFE44498)
+                              ? AppColors.accentGold
                               : Colors.transparent,
                           width: 2,
                         ),
@@ -166,7 +167,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                     child: const Icon(
                       Icons.arrow_back_ios_new,
                       size: 18,
-                      color: Color(0xFFE44498),
+                      color: AppColors.accentGold,
                     ),
                   ),
                 ),
@@ -187,7 +188,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                     child: const Icon(
                       Icons.share,
                       size: 18,
-                      color: Color(0xFFE44498),
+                      color: AppColors.accentGold,
                     ),
                   ),
                 ),
@@ -272,7 +273,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                 style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFFE44498),
+                  color: AppColors.accentGold,
                 ),
               ),
             ],
@@ -281,13 +282,13 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
             decoration: BoxDecoration(
-              color: const Color(0xFFEBF6EC),
+              color: AppColors.successGreen.withOpacity(0.1),
               borderRadius: BorderRadius.circular(4),
             ),
             child: const Text(
               "Availability : 132 Products Available",
               style: TextStyle(
-                color: Color(0xFF4CAF50),
+                color: AppColors.successGreen,
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
               ),
@@ -424,14 +425,14 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
               decoration: BoxDecoration(
                 color: isSelected
-                    ? const Color(0xFF90278E)
-                    : Colors.transparent, // Purple from image
+                    ? AppColors.accentGold
+                    : Colors.transparent,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Text(
                 tab,
                 style: TextStyle(
-                  color: isSelected ? Colors.white : Colors.grey,
+                  color: isSelected ? AppColors.textBlack : Colors.grey,
                   fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
                   fontSize: 14,
                 ),
@@ -753,7 +754,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                     const Text(
                       "\$6.99",
                       style: TextStyle(
-                        color: Color(0xFFE44498),
+                        color: AppColors.accentGold,
                         fontWeight: FontWeight.bold,
                         fontSize: 12,
                       ),
@@ -761,13 +762,13 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                     Container(
                       padding: const EdgeInsets.all(2),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFFDE8F1),
+                        color: AppColors.primaryGoldVeryLight,
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: const Icon(
                         Icons.add,
                         size: 12,
-                        color: Color(0xFFE44498),
+                        color: AppColors.accentGold,
                       ),
                     ),
                   ],
@@ -788,7 +789,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: const Color(0xFFFDF7FD),
+              color: AppColors.primaryGoldVeryLight.withOpacity(0.3),
               borderRadius: BorderRadius.circular(16),
             ),
             child: Row(
@@ -909,7 +910,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                   child: Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: const Color(0xFF333333),
+                      color: AppColors.backgroundBlack,
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: Stack(
@@ -928,7 +929,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                             child: Container(
                               padding: const EdgeInsets.all(4),
                               decoration: const BoxDecoration(
-                                color: Color(0xFFC826A3),
+                                color: AppColors.accentGold,
                                 shape: BoxShape.circle,
                               ),
                               child: Text(
@@ -953,7 +954,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                   child: OutlinedButton(
                     style: OutlinedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16),
-                      side: const BorderSide(color: Color(0xFF90278E)),
+                      side: const BorderSide(color: AppColors.accentGold),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                       ),
@@ -975,7 +976,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                     child: const Text(
                       "Add To Cart",
                       style: TextStyle(
-                        color: Color(0xFF90278E),
+                        color: AppColors.accentGold,
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                       ),
@@ -989,7 +990,8 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                 Expanded(
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF90278E),
+                      backgroundColor: AppColors.accentGold,
+                      foregroundColor: AppColors.textBlack,
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
@@ -1072,7 +1074,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20,
-                                color: Color(0xFF90278E),
+                                color: AppColors.accentGold,
                               ),
                             ),
                             const SizedBox(height: 8),
@@ -1117,11 +1119,11 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                           ),
                           decoration: BoxDecoration(
                             color: isSelected
-                                ? const Color(0xFFFDE8F1)
+                                ? AppColors.primaryGoldVeryLight
                                 : Colors.white,
                             border: Border.all(
                               color: isSelected
-                                  ? const Color(0xFFE44498)
+                                  ? AppColors.accentGold
                                   : Colors.grey.shade300,
                             ),
                             borderRadius: BorderRadius.circular(8),
@@ -1130,7 +1132,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                             size.split(' ')[0],
                             style: TextStyle(
                               color: isSelected
-                                  ? const Color(0xFFE44498)
+                                  ? AppColors.accentGold
                                   : Colors.black87,
                               fontWeight: isSelected
                                   ? FontWeight.bold
@@ -1165,7 +1167,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                             shape: BoxShape.circle,
                             border: Border.all(
                               color: isSelected
-                                  ? const Color(0xFFE44498)
+                                  ? AppColors.accentGold
                                   : Colors.transparent,
                               width: 2,
                             ),
@@ -1216,9 +1218,8 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(
-                          0xFFf9a825,
-                        ), // Flipkart yellow
+                        backgroundColor: AppColors.accentGold,
+                        foregroundColor: AppColors.textBlack,
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
