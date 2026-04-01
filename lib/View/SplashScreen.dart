@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
 import 'OnboardingScreen.dart';
+import 'HomeScreen.dart';
 import '../theme/app_colors.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -10,21 +14,27 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+
   @override
   void initState() {
     super.initState();
     _navigateToNextScreen();
   }
 
-  _navigateToNextScreen() async {
+  Future<void> _navigateToNextScreen() async {
     await Future.delayed(const Duration(seconds: 3));
-    
-    if (!mounted) return;
-    
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const OnboardingScreen()),
-    );
+
+    var box = Hive.box('authBox');
+
+    /// 🔥 ROBUST LOGIN CHECK
+    bool isLoggedIn = box.get('isLoggedIn', defaultValue: false);
+    String? selfId = box.get('selfId');
+
+    if (isLoggedIn && selfId != null && selfId.isNotEmpty) {
+      Get.offAll(() => const HomeScreen());
+    } else {
+      Get.offAll(() => const OnboardingScreen());
+    }
   }
 
   @override
@@ -38,11 +48,9 @@ class _SplashScreenState extends State<SplashScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Shopping bag icon with circular arrow
               Stack(
                 alignment: Alignment.center,
                 children: [
-                  // Circular arrow
                   Container(
                     width: 120,
                     height: 120,
@@ -58,7 +66,6 @@ class _SplashScreenState extends State<SplashScreen> {
                       strokeWidth: 3,
                     ),
                   ),
-                  // Shopping bag icon
                   const Icon(
                     Icons.shopping_bag_outlined,
                     size: 60,
@@ -67,17 +74,12 @@ class _SplashScreenState extends State<SplashScreen> {
                 ],
               ),
               const SizedBox(height: 40),
-              // ShopUs text with icon
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(
-                    Icons.shopping_bag,
-                    color: AppColors.accentGold,
-                    size: 24,
-                  ),
-                  const SizedBox(width: 8),
-                  const Text(
+                children: const [
+                  Icon(Icons.shopping_bag, color: AppColors.accentGold, size: 24),
+                  SizedBox(width: 8),
+                  Text(
                     'ShopUs',
                     style: TextStyle(
                       color: AppColors.accentGoldLight,
@@ -88,7 +90,6 @@ class _SplashScreenState extends State<SplashScreen> {
                 ],
               ),
               const SizedBox(height: 12),
-              // Tagline
               const Text(
                 'Buy groceries and feed yourself',
                 style: TextStyle(

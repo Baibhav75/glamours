@@ -1,35 +1,81 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:glamorous/profile/ContactUsPage.dart';
+import 'package:get/get.dart';
+import 'package:glamorous/ViewSection/wallet_screen.dart';
+import '../Controller/loginController.dart';
+import '../Controller/profile_controller.dart';
 import '../profile/AppInfoPage.dart';
+import '../profile/ContactUsPage.dart';
 import '../theme/app_colors.dart';
+import 'ChangePassword.dart';
 import 'EditProfileScreen.dart';
 import 'AboutUsScreen.dart';
 import 'HomeScreen.dart';
 import 'OffersPage.dart';
+import 'SignInScreen.dart';
 import 'cart_page.dart';
 import 'order_page.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey.shade50,
-      appBar: _buildAppBar(context),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            _buildQuickAccessIcons(context),
-            const SizedBox(height: 16),
-            _buildMenuList(context),
-            const SizedBox(height: 20),
-          ],
-        ),
-      ),
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
 
-    );
+class _ProfileScreenState extends State<ProfileScreen> {
+  final ProfileController controller = Get.put(ProfileController());
+
+  @override
+  void initState() {
+    super.initState();
+    final box = Hive.box('authBox');
+    String? selfId = box.get('selfId');
+    if (selfId != null) {
+      controller.fetchProfile(selfId);
+    }
+  }
+
+  void _logout(BuildContext context) async {
+    try {
+      var box = Hive.box('authBox');
+      await box.clear(); // Complete cleanup
+      
+      Get.snackbar(
+        'Logged Out',
+        'You have been successfully logged out.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.black87,
+        colorText: Colors.white,
+      );
+      
+      Get.offAll(() => const SignInScreen());
+    } catch (e) {
+      print("Logout Error: $e");
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() {
+      return Scaffold(
+        backgroundColor: Colors.grey.shade50,
+        appBar: _buildAppBar(context),
+        body: controller.isLoading.value
+            ? const Center(child: CircularProgressIndicator())
+            : SingleChildScrollView(
+          child: Column(
+            children: [
+              _buildQuickAccessIcons(context),
+              const SizedBox(height: 16),
+              _buildMenuList(context),
+              const SizedBox(height: 20),
+            ],
+          ),
+        ),
+      );
+    });
   }
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
@@ -52,10 +98,10 @@ class ProfileScreen extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          const Spacer(),
-          const Text(
-            'Shivam Duba',
-            style: TextStyle(
+        const Spacer(),
+          Text(
+            controller.profile.value?.data?.fullName ?? 'User',
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 16,
               fontWeight: FontWeight.w500,
@@ -77,22 +123,34 @@ class ProfileScreen extends StatelessWidget {
                 border: Border.all(color: Colors.white, width: 2),
               ),
               child: ClipOval(
-                child: CachedNetworkImage(
-                  imageUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80',
-                  fit: BoxFit.cover,
-                  placeholder: (context, url) => Container(
-                    color: Colors.grey.shade300,
-                    child: const Icon(Icons.person, color: Colors.grey),
-                  ),
-                  errorWidget: (context, url, error) => Container(
-                    color: Colors.grey.shade300,
-                    child: const Icon(Icons.person, color: Colors.grey),
-                  ),
-                ),
+                child: _buildProfileImage(),
               ),
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildProfileImage() {
+    final data = controller.profile.value?.data;
+    String? imageUrl = data?.profilePic;
+    
+    // Prefix with domain if it's a relative path
+    if (imageUrl != null && imageUrl.startsWith('/')) {
+      imageUrl = "https://glamorousfilmcity.com$imageUrl";
+    }
+
+    return CachedNetworkImage(
+      imageUrl: imageUrl ?? 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80',
+      fit: BoxFit.cover,
+      placeholder: (context, url) => Container(
+        color: Colors.grey.shade300,
+        child: const Icon(Icons.person, color: Colors.grey),
+      ),
+      errorWidget: (context, url, error) => Container(
+        color: Colors.grey.shade300,
+        child: const Icon(Icons.person, color: Colors.grey),
       ),
     );
   }
@@ -268,6 +326,18 @@ class ProfileScreen extends StatelessWidget {
         },
       },
       {
+        'title': 'Wallet',
+        'icon': Icons.wallet,
+        'onTap': () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => WalletScreen(),
+            ),
+          );
+        },
+      },
+      {
         'title': 'App Info',
         'icon': Icons.info_outline,
         'onTap': () {
@@ -279,6 +349,29 @@ class ProfileScreen extends StatelessWidget {
           );
         },
       },
+      {
+        'title': 'Change Password',
+        'icon': Icons.description_outlined,
+        'onTap': () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>  ChangePasswordScreen(),
+            ),
+          );
+        },
+      },
+      {
+        'title': 'Logout',
+        'icon': Icons.logout,
+
+        'onTap': () {
+          _logout(context);
+        },
+      },
+
+
+
     ];
 
     return Container(

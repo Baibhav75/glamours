@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
 import 'View/  payment_page.dart';
 import 'View/SplashScreen.dart';
 import 'View/cart_page.dart';
@@ -6,7 +9,12 @@ import 'View/checkout_page.dart';
 import 'location/map_location_picker.dart';
 import 'theme/app_colors.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Hive.initFlutter();
+  await Hive.openBox('authBox');
+
   runApp(const MyApp());
 }
 
@@ -15,9 +23,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'ShopUs - Ecommerce App',
       debugShowCheckedModeBanner: false,
+
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: AppColors.primaryGold,
@@ -39,12 +48,14 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
+
       home: const SplashScreen(),
-        routes: {
-          "checkout": (context) => const CheckoutPage(),
-          "payment": (context) => const PaymentPage(),
-          "map": (context) => const MapLocationPicker(),
-        }
+
+      getPages: [
+        GetPage(name: '/checkout', page: () => const CheckoutPage()),
+        GetPage(name: '/payment', page: () => const PaymentPage()),
+        GetPage(name: '/map', page: () => const MapLocationPicker()),
+      ],
     );
   }
 }

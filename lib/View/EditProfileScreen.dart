@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:get/get.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
 import '../theme/app_colors.dart';
+import '../Controller/profile_controller.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
@@ -10,20 +14,52 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
+
+  final ProfileController controller = Get.put(ProfileController());
+
   final _formKey = GlobalKey<FormState>();
-  final _nameController = TextEditingController(text: 'Shivam Duba');
-  final _phoneController = TextEditingController(text: '+880 ######');
-  final _addressController = TextEditingController(text: 'Jharkhnad 11');
-  
+
+  final _nameController = TextEditingController();
+  final _phoneController = TextEditingController();
+  final _selfIdController = TextEditingController();
+  final _sponsorIdController = TextEditingController();
+  final _addressController = TextEditingController();
+  final _joiningDateController = TextEditingController();
+  final _dobController = TextEditingController();
+  final _genderController = TextEditingController();
+
   String _selectedCountry = 'India';
-  String _selectedState = 'Gujarat';
-  String _selectedCity = 'Gandhinagar';
+  String _selectedState = 'Delhi';
+  String _selectedCity = 'Delhi';
+  String _selectedGender = 'Male';
+
+  final List<String> _cities = ['Delhi', 'Gandhinagar', 'Ahmedabad', 'Surat'];
+  final List<String> _states = ['Delhi', 'Gujarat', 'Maharashtra', 'Karnataka'];
+  final List<String> _countries = ['India', 'Bangladesh', 'USA', 'UK'];
+  final List<String> _genders = ['Male', 'Female', 'Other'];
+
+  @override
+  void initState() {
+    super.initState();
+
+    final box = Hive.box('authBox');
+    String? selfId = box.get('selfId');
+
+    if (selfId != null) {
+      controller.fetchProfile(selfId);
+    }
+  }
 
   @override
   void dispose() {
     _nameController.dispose();
     _phoneController.dispose();
+    _selfIdController.dispose();
+    _sponsorIdController.dispose();
     _addressController.dispose();
+    _joiningDateController.dispose();
+    _dobController.dispose();
+    _genderController.dispose();
     super.dispose();
   }
 
@@ -33,139 +69,257 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       backgroundColor: Colors.grey.shade50,
       appBar: AppBar(
         backgroundColor: AppColors.backgroundBlack,
-        elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
-          'Edit Profile',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        title: const Text("Edit Profile"),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              const SizedBox(height: 20),
-              _buildProfilePicture(),
-              const SizedBox(height: 16),
-              const Text(
-                'John Doe',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
+
+      /// 🔥 GETX UI
+      body: Obx(() {
+
+        if (controller.isLoading.value) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        final data = controller.profile.value?.data;
+
+        if (data == null) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.info_outline, size: 48, color: Colors.grey),
+                const SizedBox(height: 16),
+                Text(
+                  controller.profile.value?.message ?? "No Data Found",
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 16, color: Colors.grey),
                 ),
-              ),
-              const SizedBox(height: 32),
-              _buildTextField(
-                controller: _nameController,
-                label: 'Name',
-                icon: Icons.person_outline,
-              ),
-              const SizedBox(height: 16),
-              _buildPhoneField(),
-              const SizedBox(height: 16),
-              _buildDropdownField(
-                label: 'Country',
-                value: _selectedCountry,
-                items: ['India', 'Bangladesh', 'USA', 'UK'],
-                onChanged: (value) {
-                  setState(() {
-                    _selectedCountry = value!;
-                  });
-                },
-              ),
-              const SizedBox(height: 16),
-              _buildDropdownField(
-                label: 'State',
-                value: _selectedState,
-                items: ['Gujarat', 'Maharashtra', 'Delhi', 'Karnataka'],
-                onChanged: (value) {
-                  setState(() {
-                    _selectedState = value!;
-                  });
-                },
-              ),
-              const SizedBox(height: 16),
-              _buildDropdownField(
-                label: 'City',
-                value: _selectedCity,
-                items: ['Gandhinagar', 'Ahmedabad', 'Surat', 'Vadodara'],
-                onChanged: (value) {
-                  setState(() {
-                    _selectedCity = value!;
-                  });
-                },
-              ),
-              const SizedBox(height: 16),
-              _buildTextField(
-                controller: _addressController,
-                label: 'Address',
-                icon: Icons.location_on_outlined,
-              ),
-              const SizedBox(height: 32),
-              _buildUpdateButton(),
-              const SizedBox(height: 20),
-            ],
+                const SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: () {
+                    final box = Hive.box('authBox');
+                    String? selfId = box.get('selfId');
+                    if (selfId != null) controller.fetchProfile(selfId);
+                  },
+                  child: const Text("Retry"),
+                ),
+              ],
+            ),
+          );
+        }
+
+        /// 🔥 SET VALUE ONLY ONCE
+        if (_nameController.text.isEmpty) {
+          _nameController.text = data.fullName;
+          _phoneController.text = data.mobile;
+          _selfIdController.text = data.selfId;
+          _sponsorIdController.text = data.sponsorId ?? "";
+          _addressController.text = data.address ?? "";
+          _joiningDateController.text = data.joiningDate ?? "";
+          _dobController.text = data.dob ?? ""; // Set DOB
+          _genderController.text = data.gender ?? ""; // Set Gender
+
+          // Add user's city, state, country if not in lists
+          if (data.city != null && !_cities.contains(data.city)) _cities.add(data.city!);
+          if (data.state != null && !_states.contains(data.state)) _states.add(data.state!);
+          if (data.country != null && !_countries.contains(data.country)) _countries.add(data.country!);
+          if (data.gender != null && !_genders.contains(data.gender)) _genders.add(data.gender!);
+
+          _selectedCity = data.city ?? "Delhi";
+          _selectedState = data.state ?? "Delhi";
+          _selectedCountry = data.country ?? "India";
+          _selectedGender = data.gender ?? "Male"; // Set selected gender
+        }
+
+        return SingleChildScrollView(
+          padding: const EdgeInsets.all(20),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+
+                const SizedBox(height: 20),
+
+                /// PROFILE IMAGE
+                _buildProfilePicture(),
+
+                const SizedBox(height: 16),
+
+                Text(
+                  data.fullName,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+
+                const SizedBox(height: 32),
+
+                /// NAME
+                _buildTextField(
+                  controller: _nameController,
+                  label: 'Name',
+                  icon: Icons.person_outline,
+                ),
+
+                const SizedBox(height: 16),
+
+                /// PHONE
+                _buildPhoneField(),
+
+                const SizedBox(height: 16),
+
+                /// SELF ID (READ ONLY)
+                TextFormField(
+                  controller: _selfIdController,
+                  enabled: false,
+                  decoration: InputDecoration(
+                    labelText: 'Self ID',
+                    prefixIcon: const Icon(Icons.badge_outlined, color: AppColors.primaryGold),
+                    filled: true,
+                    fillColor: Colors.grey.shade200,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 16),
+
+                /// JOINING DATE (READ ONLY)
+                TextFormField(
+                  controller: _joiningDateController,
+                  enabled: false,
+                  decoration: InputDecoration(
+                    labelText: 'Joining Date',
+                    prefixIcon: const Icon(Icons.calendar_today_outlined, color: AppColors.primaryGold),
+                    filled: true,
+                    fillColor: Colors.grey.shade200,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 16),
+
+                /// GENDER
+                _buildDropdownField(
+                  label: 'Gender',
+                  value: _selectedGender,
+                  items: _genders,
+                  onChanged: (value) {
+                    setState(() => _selectedGender = value!);
+                  },
+                ),
+
+                const SizedBox(height: 16),
+
+                /// DOB
+                _buildTextField(
+                  controller: _dobController,
+                  label: 'Date of Birth',
+                  icon: Icons.cake_outlined,
+                ),
+
+                const SizedBox(height: 16),
+
+                /// SPONSOR ID
+                _buildTextField(
+                  controller: _sponsorIdController,
+                  label: 'Sponser ID',
+                  icon: Icons.group_outlined,
+                ),
+
+                const SizedBox(height: 16),
+
+                /// COUNTRY
+                _buildDropdownField(
+                  label: 'Country',
+                  value: _selectedCountry,
+                  items: _countries,
+                  onChanged: (value) {
+                    setState(() => _selectedCountry = value!);
+                  },
+                ),
+
+                const SizedBox(height: 16),
+
+                /// STATE
+                _buildDropdownField(
+                  label: 'State',
+                  value: _selectedState,
+                  items: _states,
+                  onChanged: (value) {
+                    setState(() => _selectedState = value!);
+                  },
+                ),
+
+                const SizedBox(height: 16),
+
+                /// CITY
+                _buildDropdownField(
+                  label: 'City',
+                  value: _selectedCity,
+                  items: _cities,
+                  onChanged: (value) {
+                    setState(() => _selectedCity = value!);
+                  },
+                ),
+
+                const SizedBox(height: 16),
+
+                /// ADDRESS
+                _buildTextField(
+                  controller: _addressController,
+                  label: 'Address',
+                  icon: Icons.location_on_outlined,
+                ),
+
+                const SizedBox(height: 32),
+
+                /// UPDATE BUTTON
+                _buildUpdateButton(),
+
+                const SizedBox(height: 20),
+              ],
+            ),
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 
+  /// ================= UI WIDGETS =================
+
   Widget _buildProfilePicture() {
-    return Stack(
-      children: [
-        Container(
-          width: 120,
-          height: 120,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(color: AppColors.primaryGold, width: 3),
-          ),
-          child: ClipOval(
-            child: CachedNetworkImage(
-              imageUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80',
-              fit: BoxFit.cover,
-              placeholder: (context, url) => Container(
-                color: Colors.grey.shade300,
-                child: const Icon(Icons.person, size: 60, color: Colors.grey),
-              ),
-              errorWidget: (context, url, error) => Container(
-                color: Colors.grey.shade300,
-                child: const Icon(Icons.person, size: 60, color: Colors.grey),
-              ),
-            ),
-          ),
+    final data = controller.profile.value?.data;
+    String? imageUrl = data?.profilePic;
+    
+    // Prefix with domain if it's a relative path
+    if (imageUrl != null && imageUrl.startsWith('/')) {
+      imageUrl = "https://glamorousfilmcity.com$imageUrl";
+    }
+
+    return Container(
+      width: 120,
+      height: 120,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(color: AppColors.primaryGold, width: 3),
+      ),
+      child: ClipOval(
+        child: CachedNetworkImage(
+          imageUrl: imageUrl ?? 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80',
+          fit: BoxFit.cover,
+          placeholder: (context, url) => const CircularProgressIndicator(),
+          errorWidget: (context, url, error) => const Icon(Icons.person, size: 60),
         ),
-        Positioned(
-          bottom: 0,
-          right: 0,
-          child: Container(
-            width: 36,
-            height: 36,
-            decoration: BoxDecoration(
-              color: AppColors.primaryGold,
-              shape: BoxShape.circle,
-              border: Border.all(color: Colors.white, width: 3),
-            ),
-            child: const Icon(
-              Icons.edit,
-              color: Colors.white,
-              size: 18,
-            ),
-          ),
-        ),
-      ],
+      ),
     );
   }
 
@@ -178,21 +332,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       controller: controller,
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: const TextStyle(color: AppColors.primaryGold),
         prefixIcon: Icon(icon, color: AppColors.primaryGold),
-        filled: true,
-        fillColor: Colors.white,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.primaryGold),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.primaryGold),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.primaryGold, width: 2),
         ),
       ),
     );
@@ -204,42 +346,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       keyboardType: TextInputType.phone,
       decoration: InputDecoration(
         labelText: 'Phone',
-        labelStyle: const TextStyle(color: AppColors.primaryGold),
-        prefixIcon: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const SizedBox(width: 12),
-            Container(
-              width: 24,
-              height: 24,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.green,
-              ),
-              child: const Center(
-                child: Text(
-                  'Ind',
-                  style: TextStyle(fontSize: 16),
-                ),
-              ),
-            ),
-            const SizedBox(width: 8),
-            const Icon(Icons.phone_outlined, color: AppColors.primaryGold),
-          ],
-        ),
-        filled: true,
-        fillColor: Colors.white,
+        prefixIcon: const Icon(Icons.phone),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.primaryGold),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.primaryGold),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.primaryGold, width: 2),
         ),
       ),
     );
@@ -255,29 +364,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       value: value,
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: const TextStyle(color: AppColors.primaryGold),
-        prefixIcon: const Icon(Icons.location_on_outlined, color: AppColors.primaryGold),
-        filled: true,
-        fillColor: Colors.white,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.primaryGold),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.primaryGold),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.primaryGold, width: 2),
         ),
       ),
-      items: items.map((item) {
-        return DropdownMenuItem(
-          value: item,
-          child: Text(item),
-        );
-      }).toList(),
+      items: items.map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
       onChanged: onChanged,
     );
   }
@@ -285,34 +376,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Widget _buildUpdateButton() {
     return SizedBox(
       width: double.infinity,
-      height: 56,
+      height: 55,
       child: ElevatedButton(
         onPressed: () {
           if (_formKey.currentState!.validate()) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Profile updated successfully!'),
-                backgroundColor: AppColors.primaryGold,
-              ),
-            );
-            Navigator.pop(context);
+            Get.snackbar("Success", "Profile Updated");
           }
         },
-        style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.backgroundBlack,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          elevation: 2,
-        ),
-        child: const Text(
-          'Update Profile',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        child: const Text("Update Profile"),
       ),
     );
   }

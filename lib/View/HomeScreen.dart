@@ -5,6 +5,7 @@ import '../ViewSection/ShoeSection.dart';
 import '../ViewSection/SweatersSection.dart';
 import '../ViewSection/ElectronicsSection.dart';
 import '../ViewSection/FoodSection.dart';
+import '../ViewSection/category_screen.dart';
 import '../widgetsection/best_seller_section.dart';
 import '../widgetsection/new_arrivals_section.dart';
 import '../widgetsection/promotional_banner.dart';
@@ -491,7 +492,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildHeader() {
     return Stack(
       children: [
-        // 1. Purple Background with Rounded Corners
+
         Container(
           height: 150,
           decoration: const BoxDecoration(
@@ -507,7 +508,16 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               const Icon(Icons.shopping_bag_outlined, color: Colors.white, size: 28),
               const SizedBox(width: 10),
-              const Text(
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CategoryScreen (),
+                ),
+              );
+            },
+               child: const Text(
                 'Glamorous',
                 style: TextStyle(
                   color: AppColors.textWhite,
@@ -515,7 +525,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
+          ),
               const Spacer(),
+
               InkWell(
                 onTap: () {
                   Navigator.push(

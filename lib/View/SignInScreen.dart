@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:get/get.dart';
+import '../Controller/loginController.dart';
 import 'VerificationCodeScreen.dart';
 import 'HomeScreen.dart';
 import '../theme/app_colors.dart';
@@ -13,39 +15,15 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends State<SignInScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _usernameController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  bool _obscurePassword = true;
-  bool _rememberMe = true;
-  bool _isSignIn = true; // true for Sign In, false for Sign Up
-
-  @override
-  void dispose() {
-    _usernameController.dispose();
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
-
-  void _toggleMode() {
-    setState(() {
-      _isSignIn = !_isSignIn;
-      _rememberMe = _isSignIn; // Reset remember me based on mode
-      // Clear form when switching
-      _usernameController.clear();
-      _emailController.clear();
-      _passwordController.clear();
-    });
-  }
+  final LoginController _controller = Get.put(LoginController());
 
   void _handleSubmit() {
     if (_formKey.currentState!.validate()) {
-      // Navigate to home screen
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
-      );
+      if (_controller.isSignIn.value) {
+        _controller.handleLogin();
+      } else {
+        _controller.handleSignUp();
+      }
     }
   }
 
@@ -68,44 +46,30 @@ class _SignInScreenState extends State<SignInScreen> {
               left: 0,
               right: 0,
               height: MediaQuery.of(context).size.height * 0.4,
-              child: AnimatedSwitcher(
+              child: Obx(() => AnimatedSwitcher(
                 duration: const Duration(milliseconds: 300),
                 child: Container(
-                  key: ValueKey(_isSignIn),
+                  key: ValueKey(_controller.isSignIn.value),
                   decoration: const BoxDecoration(
-                    gradient: AppColors.darkGradient, // Dark gradient for classic feel
+                    gradient: AppColors.darkGradient,
                   ),
                   child: Stack(
                     fit: StackFit.expand,
                     children: [
-                      // Network image
                       CachedNetworkImage(
-                        imageUrl: _isSignIn
-                            ? 'https://images.unsplash.com/photo-1556742502-ec7c0e9f34b1?w=800&q=80' // Shopping woman image
-                            : 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80', // Shopping woman image
+                        imageUrl: _controller.isSignIn.value
+                            ? 'https://images.unsplash.com/photo-1556742502-ec7c0e9f34b1?w=800&q=80'
+                            : 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80',
                         fit: BoxFit.cover,
                         placeholder: (context, url) => Container(
                           color: AppColors.backgroundDarkGray,
-                          child: Center(
-                            child: CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                Colors.white.withOpacity(0.5),
-                              ),
-                            ),
-                          ),
+                          child: const Center(child: CircularProgressIndicator()),
                         ),
                         errorWidget: (context, url, error) => Container(
                           color: AppColors.backgroundDarkGray,
-                          child: Center(
-                            child: Icon(
-                              Icons.shopping_bag_outlined,
-                              size: 120,
-                              color: Colors.white.withOpacity(0.8),
-                            ),
-                          ),
+                          child: const Center(child: Icon(Icons.shopping_bag_outlined, size: 120, color: Colors.white70)),
                         ),
                       ),
-                      // Gradient overlay for better text visibility
                       Container(
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
@@ -122,7 +86,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     ],
                   ),
                 ),
-              ),
+              )),
             ),
             // Content section
             Positioned(
@@ -146,19 +110,14 @@ class _SignInScreenState extends State<SignInScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(height: 20),
-                        // Header - changes based on mode
-                        AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 300),
-                          child: Text(
-                            _isSignIn ? 'Welcome back!' : 'Create Account',
-                            key: ValueKey(_isSignIn),
-                            style: const TextStyle(
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.textBlack,
-                            ),
+                        Obx(() => Text(
+                          _controller.isSignIn.value ? 'Welcome back!' : 'Create Account',
+                          style: const TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.textBlack,
                           ),
-                        ),
+                        )),
                         const SizedBox(height: 24),
                         // Tabs
                         Row(
@@ -166,20 +125,16 @@ class _SignInScreenState extends State<SignInScreen> {
                             Expanded(
                               child: GestureDetector(
                                 onTap: () {
-                                  if (!_isSignIn) _toggleMode();
+                                  if (!_controller.isSignIn.value) _controller.toggleMode();
                                 },
-                                child: Column(
+                                child: Obx(() => Column(
                                   children: [
                                     Text(
                                       'Sign In',
                                       style: TextStyle(
                                         fontSize: 16,
-                                        fontWeight: _isSignIn 
-                                            ? FontWeight.w600 
-                                            : FontWeight.w400,
-                                        color: _isSignIn 
-                                            ? AppColors.primaryGold
-                                            : AppColors.textGray,
+                                        fontWeight: _controller.isSignIn.value ? FontWeight.w600 : FontWeight.w400,
+                                        color: _controller.isSignIn.value ? AppColors.primaryGold : AppColors.textGray,
                                       ),
                                     ),
                                     const SizedBox(height: 8),
@@ -187,35 +142,27 @@ class _SignInScreenState extends State<SignInScreen> {
                                       duration: const Duration(milliseconds: 300),
                                       height: 3,
                                       decoration: BoxDecoration(
-                                        color: _isSignIn 
-                                            ? AppColors.primaryGold
-                                            : Colors.transparent,
-                                        borderRadius: const BorderRadius.all(
-                                          Radius.circular(2),
-                                        ),
+                                        color: _controller.isSignIn.value ? AppColors.primaryGold : Colors.transparent,
+                                        borderRadius: const BorderRadius.all(Radius.circular(2)),
                                       ),
                                     ),
                                   ],
-                                ),
+                                )),
                               ),
                             ),
                             Expanded(
                               child: GestureDetector(
                                 onTap: () {
-                                  if (_isSignIn) _toggleMode();
+                                  if (_controller.isSignIn.value) _controller.toggleMode();
                                 },
-                                child: Column(
+                                child: Obx(() => Column(
                                   children: [
                                     Text(
                                       'Sign Up',
                                       style: TextStyle(
                                         fontSize: 16,
-                                        fontWeight: !_isSignIn 
-                                            ? FontWeight.w600 
-                                            : FontWeight.w400,
-                                        color: !_isSignIn 
-                                            ? AppColors.primaryGold
-                                            : AppColors.textGray,
+                                        fontWeight: !_controller.isSignIn.value ? FontWeight.w600 : FontWeight.w400,
+                                        color: !_controller.isSignIn.value ? AppColors.primaryGold : AppColors.textGray,
                                       ),
                                     ),
                                     const SizedBox(height: 8),
@@ -223,144 +170,99 @@ class _SignInScreenState extends State<SignInScreen> {
                                       duration: const Duration(milliseconds: 300),
                                       height: 3,
                                       decoration: BoxDecoration(
-                                        color: !_isSignIn 
-                                            ? AppColors.primaryGold
-                                            : Colors.transparent,
-                                        borderRadius: const BorderRadius.all(
-                                          Radius.circular(2),
-                                        ),
+                                        color: !_controller.isSignIn.value ? AppColors.primaryGold : Colors.transparent,
+                                        borderRadius: const BorderRadius.all(Radius.circular(2)),
                                       ),
                                     ),
                                   ],
-                                ),
+                                )),
                               ),
                             ),
                           ],
                         ),
                         const SizedBox(height: 32),
                         // Username field
-                        TextFormField(
-                          controller: _usernameController,
+                        Obx(() => TextFormField(
+                          controller: _controller.usernameController,
                           decoration: InputDecoration(
-                            labelText: _isSignIn ? 'Username or email' : 'Username',
+                            labelText: _controller.isSignIn.value ? 'Self ID' : 'Username',
+                            hintText: _controller.isSignIn.value ? 'e.g., GFC1234567' : 'Full Name',
                             filled: true,
                             fillColor: AppColors.backgroundWhite,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: const BorderSide(color: AppColors.borderGray),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: const BorderSide(color: AppColors.borderGray),
-                            ),
+                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
-                              borderSide: const BorderSide(
-                                color: AppColors.primaryGold,
-                                width: 2,
-                              ),
+                              borderSide: const BorderSide(color: AppColors.primaryGold, width: 2),
                             ),
                           ),
                           validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return _isSignIn 
-                                  ? 'Please enter username or email'
-                                  : 'Please enter username';
+                            if (value == null || value.trim().isEmpty) {
+                              return _controller.isSignIn.value ? 'Please enter Self ID' : 'Please enter username';
                             }
                             return null;
                           },
-                        ),
+                        )),
                         // Email field - only for Sign Up
                         AnimatedSize(
                           duration: const Duration(milliseconds: 300),
-                          child: _isSignIn 
+                          child: Obx(() => _controller.isSignIn.value
                               ? const SizedBox.shrink()
                               : Column(
                                   children: [
                                     const SizedBox(height: 16),
                                     TextFormField(
-                                      controller: _emailController,
+                                      controller: _controller.emailController,
                                       keyboardType: TextInputType.emailAddress,
                                       decoration: InputDecoration(
                                         labelText: 'Email',
                                         filled: true,
                                         fillColor: AppColors.backgroundWhite,
-                                        border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(12),
-                                          borderSide: const BorderSide(color: AppColors.borderGray),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(12),
-                                          borderSide: const BorderSide(color: AppColors.borderGray),
-                                        ),
+                                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                                         focusedBorder: OutlineInputBorder(
                                           borderRadius: BorderRadius.circular(12),
-                                          borderSide: const BorderSide(
-                                            color: AppColors.primaryGold,
-                                            width: 2,
-                                          ),
+                                          borderSide: const BorderSide(color: AppColors.primaryGold, width: 2),
                                         ),
                                       ),
                                       validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'Please enter email';
-                                        }
-                                        if (!value.contains('@')) {
-                                          return 'Please enter a valid email';
-                                        }
+                                        if (value == null || value.isEmpty) return 'Please enter email';
+                                        if (!value.contains('@')) return 'Please enter a valid email';
                                         return null;
                                       },
                                     ),
                                   ],
-                                ),
+                                )),
                         ),
                         const SizedBox(height: 16),
                         // Password field
-                        TextFormField(
-                          controller: _passwordController,
-                          obscureText: _obscurePassword,
+                        Obx(() => TextFormField(
+                          controller: _controller.passwordController,
+                          obscureText: _controller.obscurePassword.value,
                           decoration: InputDecoration(
                             labelText: 'Password',
                             filled: true,
                             fillColor: AppColors.backgroundWhite,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: const BorderSide(color: AppColors.borderGray),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: const BorderSide(color: AppColors.borderGray),
-                            ),
+                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
-                              borderSide: const BorderSide(
-                                color: AppColors.primaryGold,
-                                width: 2,
-                              ),
+                              borderSide: const BorderSide(color: AppColors.primaryGold, width: 2),
                             ),
                             suffixIcon: IconButton(
                               icon: Icon(
-                                _obscurePassword
+                                _controller.obscurePassword.value
                                     ? Icons.visibility_outlined
                                     : Icons.visibility_off_outlined,
                               ),
-                              onPressed: () {
-                                setState(() {
-                                  _obscurePassword = !_obscurePassword;
-                                });
-                              },
+                              onPressed: _controller.togglePasswordVisibility,
                             ),
                           ),
                           validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter password';
-                            }
-                            if (!_isSignIn && value.length < 6) {
+                            if (value == null || value.isEmpty) return 'Please enter password';
+                            if (!_controller.isSignIn.value && value.length < 6) {
                               return 'Password must be at least 6 characters';
                             }
                             return null;
                           },
-                        ),
+                        )),
                         const SizedBox(height: 16),
                         // Remember me and Forgot password
                         Row(
@@ -368,38 +270,23 @@ class _SignInScreenState extends State<SignInScreen> {
                           children: [
                             Row(
                               children: [
-                                Checkbox(
-                                  value: _rememberMe,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _rememberMe = value ?? false;
-                                    });
-                                  },
+                                Obx(() => Checkbox(
+                                  value: _controller.rememberMe.value,
+                                  onChanged: (value) => _controller.rememberMe.value = value ?? false,
                                   activeColor: AppColors.primaryGold,
-                                  checkColor: Colors.white,
-                                ),
-                                const Text(
-                                  'Remember me',
-                                  style: TextStyle(fontSize: 14),
-                                ),
+                                )),
+                                const Text('Remember me', style: TextStyle(fontSize: 14)),
                               ],
                             ),
-                            // Forgot password - only for Sign In
-                            AnimatedSize(
-                              duration: const Duration(milliseconds: 300),
-                              child: _isSignIn
-                                  ? TextButton(
-                                      onPressed: _handleForgotPassword,
-                                      child: const Text(
-                                        'Forgot password?',
-                                        style: const TextStyle(
-                                          color: AppColors.primaryGold,
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                    )
-                                  : const SizedBox.shrink(),
-                            ),
+                            Obx(() => _controller.isSignIn.value
+                                ? TextButton(
+                                    onPressed: _handleForgotPassword,
+                                    child: const Text(
+                                      'Forgot password?',
+                                      style: TextStyle(color: AppColors.primaryGold, fontSize: 14),
+                                    ),
+                                  )
+                                : const SizedBox.shrink()),
                           ],
                         ),
                         const SizedBox(height: 24),
@@ -407,35 +294,27 @@ class _SignInScreenState extends State<SignInScreen> {
                         SizedBox(
                           width: double.infinity,
                           height: 56,
-                          child: ElevatedButton(
-                            onPressed: _handleSubmit,
+                          child: Obx(() => ElevatedButton(
+                            onPressed: _controller.isLoading.value ? null : _handleSubmit,
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.primaryGold,
                               foregroundColor: AppColors.textBlack,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16),
-                              ),
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                             ),
-                            child: Text(
-                              _isSignIn ? 'Sign In' : 'Sign Up',
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
+                            child: _controller.isLoading.value
+                                ? const Center(child: CircularProgressIndicator(color: Colors.white))
+                                : Text(
+                                    _controller.isSignIn.value ? 'Sign In' : 'Sign Up',
+                                    style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                                  ),
+                          )),
                         ),
                         const SizedBox(height: 24),
-                        // Social login
                         Center(
-                          child: Text(
-                            _isSignIn ? 'SignUp With Social' : 'Sign in With Social',
-                            style: const TextStyle(
-                              fontSize: 14,
-                              color: AppColors.textGray,
-                            ),
-                          ),
+                          child: Obx(() => Text(
+                            _controller.isSignIn.value ? 'SignUp With Social' : 'Sign in With Social',
+                            style: const TextStyle(fontSize: 14, color: AppColors.textGray),
+                          )),
                         ),
                         const SizedBox(height: 16),
                         Row(
@@ -449,24 +328,12 @@ class _SignInScreenState extends State<SignInScreen> {
                           ],
                         ),
                         const SizedBox(height: 16),
-                        // Continue as Guest
                         Center(
                           child: TextButton(
-                            onPressed: () {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const HomeScreen(),
-                                ),
-                              );
-                            },
+                            onPressed: () => Get.offAll(() => const HomeScreen()),
                             child: const Text(
                               'Continue as Guest',
-                              style: TextStyle(
-                                color: Colors.green,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                              ),
+                              style: TextStyle(color: Colors.green, fontSize: 16, fontWeight: FontWeight.w500),
                             ),
                           ),
                         ),
@@ -486,18 +353,11 @@ class _SignInScreenState extends State<SignInScreen> {
     return Container(
       width: 50,
       height: 50,
-      decoration: BoxDecoration(
-        color: color,
-        shape: BoxShape.circle,
-      ),
+      decoration: BoxDecoration(color: color, shape: BoxShape.circle),
       child: Center(
         child: Text(
           text,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
+          style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
         ),
       ),
     );

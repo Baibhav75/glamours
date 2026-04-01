@@ -5,13 +5,14 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <application
         android:usesCleartextTraffic="true"
+        android:enableOnBackInvokedCallback="true"
         android:label="glamorous"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="YOUR_GOOGLE_MAP_API_KEY"/>
+            android:value="AIzaSyCNtT0G9NSMKaCLS-JNlsLej6Nu1EZibIc"/>
 
 
         <activity
