@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../Model/wallet_model.dart';
-import '../Services/auth_service.dart';
+import '../utils/auth_service.dart';
 
 class WalletController extends GetxController {
   final AuthService _service = AuthService();
@@ -50,4 +50,4 @@ class WalletController extends GetxController {
       isLoading.value = false;
     }
   }
-}
+}

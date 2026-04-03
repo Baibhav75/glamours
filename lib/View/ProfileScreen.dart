@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:glamorous/ViewSection/wallet_screen.dart';
 import '../Controller/loginController.dart';
 import '../Controller/profile_controller.dart';
+import '../location/map_location_picker.dart';
 import '../profile/AppInfoPage.dart';
 import '../profile/ContactUsPage.dart';
 import '../theme/app_colors.dart';
@@ -158,8 +159,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final quickAccessItems = [
       {'name': 'Order', 'icon': Icons.shopping_bag_outlined},
       {'name': 'Cart', 'icon': Icons.shopping_cart_outlined},
-      {'name': 'Offers', 'icon': Icons.card_giftcard_outlined},
-      {'name': 'Wishlist', 'icon': Icons.favorite_outline},
+      {'name': 'We Team', 'icon': Icons.family_restroom},
+      {'name': 'Total Team', 'icon': Icons.group_add_outlined},
     ];
 
     return Container(
@@ -260,7 +261,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
       {
         'title': 'Your Address',
         'icon': Icons.location_on_outlined,
-        'onTap': () {},
+        'onTap': () {
+          Navigator.push(
+              context,MaterialPageRoute(
+              builder:(context) => MapLocationPicker (),
+          ),
+          );
+
+        },
       },
       {
         'title': 'All Categories',
@@ -370,8 +378,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         },
       },
 
-
-
     ];
 
     return Container(
@@ -430,5 +436,4 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ],
     );
   }
-
 }

@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import '../Model/category_model.dart';
-import '../Services/auth_service.dart';
+import '../utils/auth_service.dart';
 
 class CategoryController extends GetxController {
 

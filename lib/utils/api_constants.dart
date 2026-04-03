@@ -25,6 +25,20 @@ class ApiConstants {
   static String categories() {
     return "$baseUrl/GetCategories/Categories";
   }
+  // Products API ✅ correct
+  static const String getProducts = "$baseUrl/GetProducts/Products";
+  static String getProductsByCategory(String catId) {
+    return "$baseUrl/GetProducts/Products/?CatId=$catId";
+  }
+
+  // Image URL FIX ✅
+  static String getImageUrl(String path) {
+    return "https://glamorousfilmcity.com$path";
+  }
+ // oderlist
+  static String orderList(String selfId) {
+    return "$baseUrl/GetOrderList/OrderList?Self_Id=$selfId";
+  }
 
 
 }

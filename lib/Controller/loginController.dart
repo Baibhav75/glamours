@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import '../Services/auth_service.dart';
+import '../utils/auth_service.dart';
 import '../Model/signin_model.dart';
 import '../View/HomeScreen.dart';
 import '../View/SignInScreen.dart';

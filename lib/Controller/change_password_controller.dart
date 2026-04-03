@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '/Model/change_password_model.dart';
-import '/Services/auth_service.dart';
+import '../utils/auth_service.dart';
 
 class ChangePasswordController extends GetxController {
 

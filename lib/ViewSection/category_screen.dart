@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-import '../controller/category_controller.dart';
+import '/Controller/category_controller.dart';
 
 class CategoryScreen extends StatelessWidget {
   CategoryScreen({super.key});
@@ -21,7 +21,6 @@ class CategoryScreen extends StatelessWidget {
         backgroundColor: Colors.black,
         elevation: 0,
       ),
-
       body: Obx(() {
 
         if (controller.isLoading.value) {

@@ -24,7 +24,7 @@ class _PromotionalBannerState extends State<PromotionalBanner> {
     return Column(
       children: [
         SizedBox(
-          height: 180,
+          height: 200,
           child: PageView.builder(
             controller: _bannerController,
             onPageChanged: (index) {

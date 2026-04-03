@@ -6,6 +6,7 @@ import '../ViewSection/SweatersSection.dart';
 import '../ViewSection/ElectronicsSection.dart';
 import '../ViewSection/FoodSection.dart';
 import '../ViewSection/category_screen.dart';
+import '../ViewSection/popular_cloths_section.dart';
 import '../widgetsection/best_seller_section.dart';
 import '../widgetsection/new_arrivals_section.dart';
 import '../widgetsection/promotional_banner.dart';
@@ -99,7 +100,8 @@ class _HomeScreenState extends State<HomeScreen> {
           _buildMarketCategorySection(),
           const SizedBox(height: 12), // 👈 add space here
           const PromotionalBanner(),
-          _buildPopularCloothsSection(),
+          PopularClothsSection(),
+
           const SizedBox(height: 20),
           const BestSellerSection(),
           const SizedBox(height: 20),
@@ -238,206 +240,6 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-
-  // Popular Clooths Section
-  Widget _buildPopularCloothsSection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                'Popular Clooths',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.textBlack,
-                ),
-              ),
-              TextButton(
-                onPressed: () {},
-                child: const Text(
-                  'See all',
-                  style: TextStyle(
-                    color: AppColors.textBlack,
-                    fontSize: 14,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height:1),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 0.7,
-              crossAxisSpacing: 12,
-              mainAxisSpacing: 12,
-            ),
-            itemCount: _products.length,
-            itemBuilder: (context, index) {
-              return _buildProductCard(_products[index]);
-            },
-          ),
-        ),
-      ],
-    );
-  }
-
-  // Product Card
-  Widget _buildProductCard(Map<String, dynamic> product) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ProductDetailsPage(product: product),
-          ),
-        );
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          color: AppColors.backgroundWhite,
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.1),
-              blurRadius: 5,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-
-            /// Product Image
-            Expanded(
-              flex: 3,
-              child: ClipRRect(
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(12),
-                ),
-                child: _buildNetworkImage(
-                  product['image'],
-                  Colors.grey.shade200,
-                ),
-              ),
-            ),
-
-            /// Product Info
-            Expanded(
-              flex: 2,
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-
-                    /// Stars
-                    Row(
-                      children: List.generate(
-                        5,
-                            (index) => const Icon(
-                          Icons.star,
-                          size: 12,
-                          color: Colors.black87,
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(height: 4),
-
-                    /// Product Name
-                    Text(
-                      product['name'],
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-
-                    const Spacer(),
-
-                    /// Price Row
-                    Row(
-                      children: [
-                        Text(
-                          "₹${product['originalPrice']}",
-                          style: const TextStyle(
-                            fontSize: 12,
-                            decoration: TextDecoration.lineThrough,
-                            color: Colors.grey,
-                          ),
-                        ),
-
-                        const SizedBox(width: 6),
-
-                        Text(
-                          "₹${product['discountPrice']}",
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.primaryGold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // Network Image Widget (Reusable)
-  Widget _buildNetworkImage(String imageUrl, Color placeholderColor) {
-    return CachedNetworkImage(
-      imageUrl: imageUrl,
-      width: double.infinity,
-      height: double.infinity,
-      fit: BoxFit.cover,
-      placeholder: (context, url) => Container(
-        color: placeholderColor,
-        child: Center(
-          child: CircularProgressIndicator(
-            strokeWidth: 2,
-            valueColor: AlwaysStoppedAnimation<Color>(
-              placeholderColor == Colors.grey.shade200
-                  ? Colors.grey
-                  : Colors.white,
-            ),
-          ),
-        ),
-      ),
-      errorWidget: (context, url, error) {
-        return Container(
-          color: placeholderColor,
-          child: Icon(
-            Icons.image_not_supported,
-            color: placeholderColor == Colors.grey.shade200
-                ? Colors.grey
-                : Colors.white,
-            size: 40,
-          ),
-        );
-      },
-      httpHeaders: const {
-        'User-Agent': 'Mozilla/5.0',
-      },
-    );
-  }
 
   // Bottom Navigation Bar
   Widget _buildBottomNavigationBar() {

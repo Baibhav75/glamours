@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import '../Services/auth_service.dart';
+import '../utils/auth_service.dart';
 import '../Model/profile_model.dart';
 
 class ProfileController extends GetxController {
