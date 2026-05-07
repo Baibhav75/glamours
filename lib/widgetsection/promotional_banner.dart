@@ -75,7 +75,7 @@ class _PromotionalBannerState extends State<PromotionalBanner> {
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
-                      color: AppColors.textWhite,
+                      color: AppColors.textBlack,
                     ),
                   ),
                   const Text(
@@ -83,7 +83,7 @@ class _PromotionalBannerState extends State<PromotionalBanner> {
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
-                      color: AppColors.textWhite,
+                      color: AppColors.textBlack,
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -98,6 +98,7 @@ class _PromotionalBannerState extends State<PromotionalBanner> {
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
+                        color: AppColors.borderGray,
                       ),)
                   ),
                 ],

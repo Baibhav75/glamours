@@ -84,6 +84,11 @@ class PopularCategoryScreen extends StatelessWidget {
                     "image": ApiConstants.getImageUrl(product.image1),
                     "originalPrice": product.mrp,
                     "discountPrice": product.sellingPrice,
+                    "videoUrl": product.videoUrl != null && product.videoUrl!.isNotEmpty 
+                        ? (product.videoUrl!.startsWith('http') 
+                            ? product.videoUrl! 
+                            : ApiConstants.getImageUrl(product.videoUrl!))
+                        : null, // ✅ add this
                   }));
                 },
                 child: Container(

@@ -5,6 +5,8 @@ import '../View/OrderSummaryScreen.dart';
 import '../Services/cart_service.dart';
 import '../theme/app_colors.dart';
 
+import '../widgetsection/ProductDetailsPageVideo.dart';
+
 class ProductDetailsPage extends StatefulWidget {
   final Map product;
 
@@ -19,8 +21,8 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   String _selectedSize = 'XXL Size';
   Color _selectedColor = AppColors.accentGold; // default gold
   int _selectedThumbnailIndex = 0;
-
   late List<String> _thumbnails;
+
 
   final List<Color> _availableColors = [
     AppColors.accentGold,
@@ -44,11 +46,32 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
     String mainImage =
         widget.product['image']?.toString() ??
         'https://via.placeholder.com/300';
-    _thumbnails = [
-      mainImage,
-      mainImage, // Mock extra thumbnails
-      mainImage,
-    ];
+    
+    _thumbnails = [mainImage];
+    
+    // Add extra mock images if needed, or real ones if they exist
+    _thumbnails.addAll([mainImage, mainImage]);
+
+    // Check for video URL
+    String? videoUrl = widget.product['videoUrl'];
+    if (videoUrl != null && videoUrl.isNotEmpty) {
+      // Add video thumbnail placeholder (or use a play icon indicator)
+      _thumbnails.add(videoUrl); // We'll detect this is a video by checking index or URL
+
+    }
+  }
+
+
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  bool _isUrlVideo(String url) {
+    return url.toLowerCase().contains('.mp4') || 
+           url.toLowerCase().contains('.mov') || 
+           url == widget.product['videoUrl'];
   }
 
   @override
@@ -74,6 +97,8 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
     );
   }
 
+
+
   Widget _buildImageHeader() {
     return Container(
       color: const Color(
@@ -84,13 +109,21 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           Column(
             children: [
               const SizedBox(height: 40),
-              // Main Product Image
+              // Main Product Image or Video
               Center(
-                child: CachedNetworkImage(
-                  imageUrl: _thumbnails[_selectedThumbnailIndex],
+                child: SizedBox(
                   height: 250,
-                  fit: BoxFit.contain,
-                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                  child: _isUrlVideo(_thumbnails[_selectedThumbnailIndex])
+                      ? ProductDetailsPageVideo(
+                    videoUrl:
+                    widget.product['videoUrl'],
+                  )
+                      : CachedNetworkImage(
+                          imageUrl: _thumbnails[_selectedThumbnailIndex],
+                          fit: BoxFit.contain,
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
+                        ),
                 ),
               ),
               const SizedBox(height: 16),
@@ -98,6 +131,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: List.generate(_thumbnails.length, (index) {
+                  bool isVideo = _isUrlVideo(_thumbnails[index]);
                   return GestureDetector(
                     onTap: () {
                       setState(() {
@@ -127,12 +161,18 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                       ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(6),
-                        child: CachedNetworkImage(
-                          imageUrl: _thumbnails[index],
-                          fit: BoxFit.cover,
-                          errorWidget: (context, url, error) =>
-                              const Icon(Icons.error, size: 20),
-                        ),
+                        child: isVideo
+                            ? Container(
+                                color: Colors.black,
+                                child: const Icon(Icons.play_circle_fill,
+                                    color: Colors.white),
+                              )
+                            : CachedNetworkImage(
+                                imageUrl: _thumbnails[index],
+                                fit: BoxFit.cover,
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error, size: 20),
+                              ),
                       ),
                     ),
                   );

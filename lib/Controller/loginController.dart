@@ -17,13 +17,24 @@ class LoginController extends GetxController {
   final usernameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final TextEditingController glamorousIdController = TextEditingController();
+  final TextEditingController sponsorIdController = TextEditingController();
+  final TextEditingController sponsorNameController = TextEditingController();
+  final TextEditingController mobileController = TextEditingController();
 
   void toggleMode() {
     isSignIn.value = !isSignIn.value;
     rememberMe.value = isSignIn.value;
+
     usernameController.clear();
     emailController.clear();
     passwordController.clear();
+
+    // ✅ ADD THIS
+    glamorousIdController.clear();
+    sponsorIdController.clear();
+    sponsorNameController.clear();
+    mobileController.clear();
   }
 
   void togglePasswordVisibility() {
@@ -102,14 +113,18 @@ class LoginController extends GetxController {
     }
   }
 
-  /// 📝 SIGN UP
+  //sign up
+
   Future<void> handleSignUp() async {
     try {
       isLoading.value = true;
+
       final result = await _authService.register(
-        name: usernameController.text.trim(),
+        fullName: usernameController.text.trim(),
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
+        identifyId: glamorousIdController.text.trim(),
+        sponserId: sponsorIdController.text.trim(),
       );
 
       if (result != null && result.status) {
@@ -120,7 +135,8 @@ class LoginController extends GetxController {
           backgroundColor: Colors.green,
           colorText: Colors.white,
         );
-        isSignIn.value = true; 
+
+        isSignIn.value = true;
       } else {
         Get.snackbar(
           'Registration Error',

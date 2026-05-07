@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-
+import '../theme/app_colors.dart';
 import 'OnboardingScreen.dart';
 import 'HomeScreen.dart';
-import '../theme/app_colors.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -15,76 +14,98 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
-
   late AnimationController _controller;
-  late Animation<double> _scaleAnimation;
-  late Animation<double> _opacityAnimation;
+  
+  // Background animations
+  late Animation<Alignment> _alignmentStart;
+  late Animation<Alignment> _alignmentEnd;
+  
+  // Logo animations
+  late Animation<double> _logoScaleAnimation;
+  late Animation<double> _logoOpacityAnimation;
+  late Animation<double> _logoRotationAnimation;
+  
+  // Text animations
   late Animation<double> _textOpacityAnimation;
-  late Animation<double> _rotationAnimation;
+  late Animation<Offset> _textSlideAnimation;
+  
+  // Loader animation
+  late Animation<double> _loaderOpacityAnimation;
 
   @override
   void initState() {
     super.initState();
 
-    /// 🎬 Animation Controller
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 2500),
+      duration: const Duration(milliseconds: 3000),
     );
 
-    /// 🔥 Scale (Zoom effect)
-    _scaleAnimation = Tween<double>(
-      begin: 5.0,
-      end: 1.0,
-    ).animate(
+    /// 🌈 Background Moving Gradient
+    _alignmentStart = Tween<Alignment>(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.linear));
+
+    _alignmentEnd = Tween<Alignment>(
+      begin: Alignment.bottomRight,
+      end: Alignment.topLeft,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.linear));
+
+    /// 💎 Logo Reveal Animation
+    _logoScaleAnimation = Tween<double>(begin: 0.8, end: 1.0).animate(
       CurvedAnimation(
         parent: _controller,
-        curve: Curves.easeOutBack,
+        curve: const Interval(0.0, 0.6, curve: Curves.easeOutBack),
       ),
     );
 
-    /// 🔥 Logo Fade
-    _opacityAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(
+    _logoOpacityAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
         parent: _controller,
-        curve: const Interval(0.1, 0.8, curve: Curves.easeIn),
+        curve: const Interval(0.0, 0.4, curve: Curves.easeIn),
       ),
     );
 
-    /// 🔥 Text Fade (delayed)
-    _textOpacityAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(
+    _logoRotationAnimation = Tween<double>(begin: -0.1, end: 0.0).animate(
       CurvedAnimation(
         parent: _controller,
-        curve: const Interval(0.5, 1.0, curve: Curves.easeIn),
+        curve: const Interval(0.0, 0.6, curve: Curves.easeOut),
       ),
     );
 
-    /// 🔥 Slight rotation
-    _rotationAnimation = Tween<double>(
-      begin: -0.2,
-      end: 0.0,
-    ).animate(
+    /// 📝 Text Reveal Animation (Slide + Fade)
+    _textOpacityAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
         parent: _controller,
-        curve: Curves.easeOut,
+        curve: const Interval(0.4, 0.8, curve: Curves.easeIn),
       ),
     );
 
-    /// ▶ Start animation
+    _textSlideAnimation = Tween<Offset>(
+      begin: const Offset(0, 0.5),
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.4, 0.8, curve: Curves.easeOutCubic),
+      ),
+    );
+
+    /// ⏳ Loader Animation
+    _loaderOpacityAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.7, 1.0, curve: Curves.easeIn),
+      ),
+    );
+
     _controller.forward();
-
-    /// 🔐 Navigate
     _navigateToNextScreen();
   }
 
   Future<void> _navigateToNextScreen() async {
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(milliseconds: 4000));
 
     var box = Hive.isBoxOpen('authBox')
         ? Hive.box('authBox')
@@ -111,119 +132,180 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: AppColors.darkGradient,
-        ),
-        child: Center(
-          child: AnimatedBuilder(
-            animation: _controller,
-            builder: (context, child) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-
-                  /// 🔥 Animated Logo
-                  Opacity(
-                    opacity: _opacityAnimation.value,
-                    child: Transform.rotate(
-                      angle: _rotationAnimation.value,
-                      child: Transform.scale(
-                        scale: _scaleAnimation.value,
-                        child: Container(
-                          width: 160,
-                          height: 160,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(24),
-
-                            /// 🌫️ Glass background (semi-transparent)
-                            color: Colors.white.withOpacity(0.05),
-
-                            /// 🌈 Soft gradient overlay
-                            gradient: LinearGradient(
-                              colors: [
-                                Colors.white.withOpacity(0.15),
-                                Colors.white.withOpacity(0.02),
-                              ],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            ),
-
-                            /// ✨ Premium border
-                            border: Border.all(
-                              color: Colors.white.withOpacity(0.2),
-                              width: 1.5,
-                            ),
-
-                            /// 🔥 Soft glow shadow
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.3),
-                                blurRadius: 20,
-                                offset: const Offset(0, 10),
-                              ),
-                              BoxShadow(
-                                color: AppColors.accentGold.withOpacity(0.15),
-                                blurRadius: 25,
-                                spreadRadius: 2,
-                              ),
-                            ],
-                          ),
-                          child: Image.asset(
-                            'assets/images/glamourlogo.png',
-
-                            fit: BoxFit.contain,
+      body: AnimatedBuilder(
+        animation: _controller,
+        builder: (context, child) {
+          return Container(
+            width: double.infinity,
+            height: double.infinity,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: _alignmentStart.value,
+                end: _alignmentEnd.value,
+                colors: [
+                  const Color(0xFF1A0B2E), // Deep Space Purple
+                  AppColors.primaryPurpleDark,
+                  AppColors.primaryPurple,
+                ],
+              ),
+            ),
+            child: Stack(
+              children: [
+                // Background decorative circles for depth
+                Positioned(
+                  top: -100,
+                  right: -50,
+                  child: _buildBlurCircle(250, AppColors.primaryPurpleLight.withOpacity(0.15)),
+                ),
+                Positioned(
+                  bottom: -150,
+                  left: -100,
+                  child: _buildBlurCircle(400, AppColors.primaryPurpleDark.withOpacity(0.2)),
+                ),
+                
+                Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      /// 🎬 Logo Container
+                      Opacity(
+                        opacity: _logoOpacityAnimation.value,
+                        child: Transform.rotate(
+                          angle: _logoRotationAnimation.value,
+                          child: Transform.scale(
+                            scale: _logoScaleAnimation.value,
+                            child: _buildLogoContainer(),
                           ),
                         ),
                       ),
-                    ),
-                  ),
 
-                  const SizedBox(height: 40),
+                      const SizedBox(height: 50),
 
-                  /// 🔥 App Name
-                  Opacity(
-                    opacity: _textOpacityAnimation.value,
-                    child: const Text(
-                      'Glamorous',
-                      style: TextStyle(
-                        color: AppColors.accentGoldLight,
-                        fontSize: 34,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 2,
+                      /// 📝 Title & Subtitle
+                      FadeTransition(
+                        opacity: _textOpacityAnimation,
+                        child: SlideTransition(
+                          position: _textSlideAnimation,
+                          child: Column(
+                            children: [
+                              Text(
+                                'Glamorous',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 42,
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 4,
+                                  shadows: [
+                                    Shadow(
+                                      color: Colors.black.withOpacity(0.3),
+                                      offset: const Offset(0, 4),
+                                      blurRadius: 10,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                'PREMIUM SHOPPING EXPERIENCE',
+                                style: TextStyle(
+                                  color: Colors.white.withOpacity(0.7),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                  letterSpacing: 3,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
 
-                  const SizedBox(height: 10),
+                      const SizedBox(height: 60),
 
-                  /// 🔥 Subtitle
-                  Opacity(
-                    opacity: _textOpacityAnimation.value,
-                    child: const Text(
-                      'Buy groceries and feed yourself',
-                      style: TextStyle(
-                        color: AppColors.textWhite,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w300,
+                      /// ⏳ Modern Loader
+                      Opacity(
+                        opacity: _loaderOpacityAnimation.value,
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              width: 40,
+                              height: 40,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  Colors.white.withOpacity(0.8),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+                            Text(
+                              'Loading Excellence...',
+                              style: TextStyle(
+                                color: Colors.white.withOpacity(0.5),
+                                fontSize: 10,
+                                letterSpacing: 1,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
+                    ],
                   ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
 
-                  const SizedBox(height: 50),
-
-                  /// 🔥 Loader
-                  Opacity(
-                    opacity: _controller.value > 0.7 ? 1.0 : 0.0,
-                    child: const CircularProgressIndicator(
-                      color: AppColors.accentGold,
-                    ),
-                  ),
-                ],
-              );
-            },
+  Widget _buildLogoContainer() {
+    return Container(
+      width: 180,
+      height: 180,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: Colors.white.withOpacity(0.08),
+        border: Border.all(
+          color: Colors.white.withOpacity(0.2),
+          width: 1.5,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            blurRadius: 30,
+            spreadRadius: 5,
+          ),
+          BoxShadow(
+            color: AppColors.primaryPurpleLight.withOpacity(0.2),
+            blurRadius: 40,
+            spreadRadius: -5,
+          ),
+        ],
+      ),
+      child: Center(
+        child: Container(
+          width: 140,
+          height: 140,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            image: const DecorationImage(
+              image: AssetImage('assets/images/glamourlogo.png'),
+              fit: BoxFit.contain,
+            ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildBlurCircle(double size, Color color) {
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: color,
       ),
     );
   }

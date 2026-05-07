@@ -34,7 +34,7 @@ class BestSellerSection extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(item["icon"] as IconData, color: AppColors.primaryGold),
+                    Icon(item["icon"] as IconData, color: AppColors.textWhite),
                     const SizedBox(height: 4),
                     Text(item["name"] as String,
                         style: const TextStyle(fontSize: 10, color: AppColors.textWhite)),
@@ -54,7 +54,7 @@ class BestSellerSection extends StatelessWidget {
       children: [
         Text(title,
             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-        const Text("See all", style: TextStyle(color: Colors.grey)),
+        const Text("See all", style: TextStyle(color: Colors.black)),
       ],
     );
   }

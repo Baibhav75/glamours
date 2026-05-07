@@ -71,13 +71,21 @@ class _SelectAddressSheetState extends State<SelectAddressSheet> {
           ListTile(
             leading: const Icon(Icons.add_location_alt, color: AppColors.primaryGold),
             title: const Text("Add New Address"),
-            onTap: () {
-              Navigator.push(
+            onTap: () async {
+              final result = await Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => const AddAddressPage(),
                 ),
               );
+              if (result != null && result is Map<String, dynamic>) {
+                String fullAddress = "${result['house']}, ${result['address']}, ${result['city']} - ${result['pincode']}";
+                Navigator.pop(context, {
+                  "name": result['name'],
+                  "phone": result['phone'],
+                  "address": fullAddress,
+                });
+              }
             },
           ),
 
@@ -115,34 +123,42 @@ class _SelectAddressSheetState extends State<SelectAddressSheet> {
   /// ADDRESS TILE
   Widget _addressTile(String title, String address, String phone) {
 
-    return Container(
-      padding: const EdgeInsets.all(12),
+    return GestureDetector(
+      onTap: () {
+        Navigator.pop(context, {
+          "name": "User Name", // You can customize this
+          "phone": phone,
+          "address": address,
+        });
+      },
+      child: Container(
+        padding: const EdgeInsets.all(12),
 
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey.shade300),
-        borderRadius: BorderRadius.circular(10),
-      ),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey.shade300),
+          borderRadius: BorderRadius.circular(10),
+        ),
 
-      child: Row(
-        children: [
+        child: Row(
+          children: [
 
-          const Icon(Icons.location_on, color: AppColors.primaryGold),
+            const Icon(Icons.location_on, color: AppColors.primaryGold),
 
-          const SizedBox(width: 10),
+            const SizedBox(width: 10),
 
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
 
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
 
-                const SizedBox(height: 4),
+                  const SizedBox(height: 4),
 
                 Text(
                   address,
@@ -166,6 +182,6 @@ class _SelectAddressSheetState extends State<SelectAddressSheet> {
 
         ],
       ),
-    );
+    ));
   }
 }

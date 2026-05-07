@@ -25,7 +25,7 @@ class WalletScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backgroundBlack,
+      backgroundColor: AppColors.backgroundOffWhite,
       appBar: AppBar(
         title: const Text(
           "My Wallet",
@@ -69,7 +69,7 @@ class WalletScreen extends StatelessWidget {
 
         return RefreshIndicator(
           onRefresh: () => controller.refreshWallet(),
-          color: AppColors.primaryGold,
+          color: AppColors.backgroundOffWhite,
           backgroundColor: AppColors.backgroundDarkGray,
           child: CustomScrollView(
             slivers: [
@@ -95,12 +95,12 @@ class WalletScreen extends StatelessWidget {
                       children: [
                         const Text(
                           "Total Balance",
-                          style: TextStyle(color: Colors.black54, fontSize: 14, fontWeight: FontWeight.w600),
+                          style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600),
                         ),
                         const SizedBox(height: 8),
                         Text(
                           "₹${data.walletBalance.toStringAsFixed(2)}",
-                          style: const TextStyle(color: Colors.black, fontSize: 32, fontWeight: FontWeight.bold),
+                          style: const TextStyle(color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(height: 24),
                         Row(
@@ -239,4 +239,4 @@ class WalletScreen extends StatelessWidget {
       ],
     );
   }
-}
+}

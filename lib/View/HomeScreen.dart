@@ -47,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // Categories data
   final List<Map<String, dynamic>> _categories = [
-    {'name': 'Baby', 'icon': Icons.child_care, 'color': Colors.yellow},
+    {'name': 'Baby', 'icon': Icons.child_care, 'color': Colors.brown},
     {'name': 'Shoe', 'icon': Icons.shopping_bag, 'color': Colors.brown},
     {'name': 'Sweaters', 'icon': Icons.checkroom, 'color': Colors.brown},
     {'name': 'Electronics', 'icon': Icons.devices, 'color': Colors.blue},
@@ -55,32 +55,6 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   // Products data
-  final List<Map<String, dynamic>> _products = [
-    {
-      'name': 'Rainbow Sequin Dress',
-      'image': 'https://images.unsplash.com/photo-1594633313593-bab3825d0caf?w=400&q=80',
-      'originalPrice': 9.99,
-      'discountPrice': 6.99,
-    },
-    {
-      'name': 'Rainbow Sequin Dress',
-      'image': 'https://images.unsplash.com/photo-1594633313593-bab3825d0caf?w=400&q=80',
-      'originalPrice': 9.99,
-      'discountPrice': 6.99,
-    },
-    {
-      'name': 'Rainbow Sequin Dress',
-      'image': 'https://images.unsplash.com/photo-1594633313593-bab3825d0caf?w=400&q=80',
-      'originalPrice': 9.99,
-      'discountPrice': 6.99,
-    },
-    {
-      'name': 'Rainbow Sequin Dress',
-      'image': 'https://images.unsplash.com/photo-1594633313593-bab3825d0caf?w=400&q=80',
-      'originalPrice': 9.99,
-      'discountPrice': 6.99,
-    },
-  ];
 
   @override
   void dispose() {
@@ -114,7 +88,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
           const NewArrivalsSection(),
 
-
         ],
       ),
     );
@@ -144,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: const Text(
                   'See all',
                   style: TextStyle(
-                    color: AppColors.textBlack,
+                    color: AppColors.textGray,
                     fontSize: 14,
                   ),
                 ),
@@ -178,7 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
         width: 90,
         margin: const EdgeInsets.only(right: 12),
         decoration: BoxDecoration(
-          color: AppColors.backgroundBlack,
+          color: AppColors.primaryPurpleVeryLight,
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
@@ -203,7 +176,7 @@ class _HomeScreenState extends State<HomeScreen> {
               style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
-                color: AppColors.textWhite,
+                color: AppColors.textBlack,
               ),
             ),
           ],
@@ -240,15 +213,14 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-
   // Bottom Navigation Bar
   Widget _buildBottomNavigationBar() {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.backgroundBlack,
+        color: AppColors.textWhite,
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
+            color: Colors.pink.withOpacity(0.3),
             spreadRadius: 1,
             blurRadius: 5,
             offset: const Offset(0, -2),
@@ -264,8 +236,8 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         backgroundColor: Colors.transparent,
         elevation: 0,
-        selectedItemColor: AppColors.accentGold,
-        unselectedItemColor: Colors.white70,
+        selectedItemColor: AppColors.primaryPurple,
+        unselectedItemColor: AppColors.textGray,
         selectedFontSize: 12,
         unselectedFontSize: 12,
         type: BottomNavigationBarType.fixed,
@@ -298,7 +270,7 @@ class _HomeScreenState extends State<HomeScreen> {
         Container(
           height: 150,
           decoration: const BoxDecoration(
-            color: AppColors.backgroundBlack,
+            color: AppColors.primaryPurple,
             borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(30),
               bottomRight: Radius.circular(30),
@@ -370,10 +342,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 suffixIcon: Container(
                   margin: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: AppColors.accentGold.withOpacity(0.15),
+                    color: AppColors.primaryPurpleVeryLight,
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Icon(Icons.tune, color: AppColors.accentGold, size: 20),
+                  child: const Icon(Icons.tune, color: AppColors.primaryPurple, size: 20),
                 ),
                 border: InputBorder.none,
                 contentPadding: const EdgeInsets.symmetric(vertical: 15),
@@ -401,9 +373,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 top: 0,
                 child: Container(
                   padding: const EdgeInsets.all(4),
-                  decoration: const BoxDecoration(color: AppColors.backgroundBlack, shape: BoxShape.circle),
+                  decoration: const BoxDecoration(color: AppColors.warningOrange, shape: BoxShape.circle),
                   constraints: const BoxConstraints(minWidth: 16, minHeight: 16),
-                  child: Text('$cartCount', style: const TextStyle(color: Colors.white, fontSize: 10), textAlign: TextAlign.center),
+                  child: Text('$cartCount', style: const TextStyle(color: AppColors.textBlack, fontSize: 10, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
                 ),
               ),
           ],

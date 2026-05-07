@@ -18,6 +18,7 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
   LatLng selectedLocation = const LatLng(28.6139, 77.2090);
 
   String address = "Fetching address...";
+  Placemark? _selectedPlacemark;
   bool isLoading = true;
 
   Timer? _debounce;
@@ -89,8 +90,14 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
       Placemark place = placemarks.first;
 
       setState(() {
-        address =
-        "${place.name}, ${place.locality}, ${place.administrativeArea}";
+        _selectedPlacemark = place;
+        address = [
+          place.name,
+          place.subLocality,
+          place.locality,
+          place.administrativeArea,
+          place.postalCode
+        ].where((e) => e != null && e.isNotEmpty).join(", ");
         isLoading = false;
       });
 
@@ -218,6 +225,9 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                           "lat": selectedLocation.latitude,
                           "lng": selectedLocation.longitude,
                           "address": address,
+                          "city": _selectedPlacemark?.locality ?? "",
+                          "pincode": _selectedPlacemark?.postalCode ?? "",
+                          "area": _selectedPlacemark?.subLocality ?? "",
                         },
                       );
                     },

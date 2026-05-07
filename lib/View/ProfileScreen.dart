@@ -2,16 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:get/get.dart';
 import 'package:glamorous/ViewSection/wallet_screen.dart';
-import '../Controller/loginController.dart';
 import '../Controller/profile_controller.dart';
-import '../location/map_location_picker.dart';
+import '../ViewSection/MyNetWorkView/AutoPoolMemberScreen.dart';
+import '../ViewSection/ReferralLinkScreen.dart';
+import '../ViewSection/WelcomeLetterScreen.dart';
+import '../ViewSection/walletsView/LevelTeamListScreen.dart';
+import '../ViewSection/walletsView/PoolIncome.dart';
+import '../ViewSection/walletsView/RewardHistory.dart';
+import '../ViewSection/walletsView/ShoppingLeveIncomeScreen.dart';
+import '../ViewSection/walletsView/WithDrawRequest.dart';
+import '../ViewSection/walletsView/leaveIncomeScreen.dart';
+import '../location/add_address_page.dart';
 import '../profile/AppInfoPage.dart';
 import '../profile/ContactUsPage.dart';
 import '../theme/app_colors.dart';
 import 'ChangePassword.dart';
 import 'EditProfileScreen.dart';
 import 'AboutUsScreen.dart';
-import 'HomeScreen.dart';
 import 'OffersPage.dart';
 import 'SignInScreen.dart';
 import 'cart_page.dart';
@@ -81,7 +88,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return AppBar(
-      backgroundColor: AppColors.backgroundBlack,
+      backgroundColor: AppColors.primaryPurple,
       elevation: 0,
       automaticallyImplyLeading: false,
       title: Row(
@@ -171,7 +178,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+
+
+            color: Colors.grey.withValues(alpha: 0.5),
             spreadRadius: 1,
             blurRadius: 5,
             offset: const Offset(0, 2),
@@ -230,13 +239,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: AppColors.backgroundDarkGray,
+              color: AppColors.primaryPurpleVeryLight,
               shape: BoxShape.circle,
-              border: Border.all(color: AppColors.primaryGold.withOpacity(0.3)),
+              border: Border.all(color: AppColors.primaryPurple.withOpacity(0.3)),
             ),
             child: Icon(
               icon,
-              color: AppColors.primaryGold,
+              color: AppColors.primaryPurple,
               size: 24,
             ),
           ),
@@ -264,7 +273,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         'onTap': () {
           Navigator.push(
               context,MaterialPageRoute(
-              builder:(context) => MapLocationPicker (),
+              builder:(context) => AddAddressPage (),
           ),
           );
 
@@ -336,6 +345,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
       {
         'title': 'Wallet',
         'icon': Icons.wallet,
+        'onTap': () {},
+      },
+
+      {
+        'title': 'My Network',
+        'icon': Icons.network_check_rounded,
+        'onTap': () {},
+      },
+
+
+
+      {
+        'title': 'Dark Theme',
+        'icon': Icons.dark_mode,
         'onTap': () {
           Navigator.push(
             context,
@@ -345,6 +368,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
           );
         },
       },
+      {
+        'title': 'Refral Link',  //
+        'icon': Icons.link,
+        'onTap': () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ReferralLinkScreen(),
+            ),
+          );
+        },
+      },
+      {
+        'title': 'Welcome Letter',  //
+        'icon': Icons.palette_rounded,
+        'onTap': () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => WelcomeLetterScreen(),
+            ),
+          );
+        },
+      },
+
+      //case "Refral Link":
+      //
+      //   Get.to(() => const ReferralLinkScreen());
+      //
+      //   break;
+
+
       {
         'title': 'App Info',
         'icon': Icons.info_outline,
@@ -396,6 +451,94 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
       child: Column(
         children: menuItems.map((item) {
+          if (item['title'] == 'Wallet') {
+            return Column(
+              children: [
+                Theme(
+                  data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                  child: ExpansionTile(
+                    leading: Icon(item['icon'] as IconData, color: AppColors.primaryPurple),
+                    title: Text(
+                      item['title'] as String,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black,
+                      ),
+                    ),
+                    childrenPadding: const EdgeInsets.only(left: 16),
+                    children: [
+                      _walletItem("Main Wallet", Icons.account_balance_wallet),
+                      _walletItem("Level Income", Icons.trending_up),
+                      _walletItem("Pool Income", Icons.pool),
+                      _walletItem("Shopping Level Income", Icons.shopping_cart),
+                      const Divider(indent: 56, endIndent: 16),
+                      _walletItem("Withdraw Request", Icons.money),
+                      _walletItem("Add Fund", Icons.add_circle),
+                      const Divider(indent: 56, endIndent: 16),
+                      _walletItem("Level Deduction Wallet", Icons.remove_circle),
+                      _walletItem("Pool Deduction Wallet", Icons.remove_circle_outline),
+                      const Divider(indent: 56, endIndent: 16),
+                      _walletItem("Transaction History", Icons.history),
+                      _walletItem("Wallet History", Icons.receipt_long),
+                      const Divider(indent: 56, endIndent: 16),
+                      _walletItem("Reward Income", Icons.card_giftcard),
+                      _walletItem("Add Fund History", Icons.add_chart),
+                      _walletItem("Direct Fund History", Icons.call_split),
+                      _walletItem("W to W Fund", Icons.swap_horiz),
+                    ],
+                  ),
+                ),
+                Divider(
+                  height: 1,
+                  thickness: 1,
+                  color: Colors.grey.shade200,
+                  indent: 56,
+                ),
+              ],
+            );
+          }
+          if (item['title'] == 'My Network') {
+            return Column(
+              children: [
+                Theme(
+                  data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                  child: ExpansionTile(
+                    leading: Icon(item['icon'] as IconData, color: AppColors.primaryPurple),
+                    title: Text(
+                      item['title'] as String,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black,
+                      ),
+                    ),
+                    childrenPadding: const EdgeInsets.only(left: 16),
+                    children: [
+                      _networkItem("Level Team List"),
+                      _networkItem("Direct Team"),
+                      _networkItem("Pool 1 Members"),
+                      _networkItem("Pool 2 Members"),
+                      _networkItem("Pool 3 Members"),
+                      _networkItem("Pool 4 Members"),
+                      _networkItem("Pool 5 Members"),
+                      _networkItem("Pool 6 Members"),
+                      _networkItem("Pool 7 Members"),
+                      _networkItem("Pool 8 Members"),
+                      _networkItem("Pool 9 Members"),
+                      _networkItem("Refral Link"),
+                    ],
+                  ),
+                ),
+                Divider(
+                  height: 1,
+                  thickness: 1,
+                  color: Colors.grey.shade200,
+                  indent: 56,
+                ),
+              ],
+            );
+          }
           return _buildMenuItem(
             item['title'] as String,
             item['icon'] as IconData,
@@ -411,7 +554,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Column(
       children: [
         ListTile(
-          leading: Icon(icon, color: AppColors.primaryGold),
+          leading: Icon(icon, color: AppColors.primaryPurple),
           title: Text(
             title,
             style: const TextStyle(
@@ -434,6 +577,145 @@ class _ProfileScreenState extends State<ProfileScreen> {
             indent: 56,
           ),
       ],
+    );
+  }
+
+
+  Widget _walletItem(String title, IconData icon) {
+    return ListTile(
+      leading: CircleAvatar(
+        backgroundColor: Colors.purple.withOpacity(0.1),
+        child: Icon(icon, color: Colors.purple),
+      ),
+      title: Text(
+        title,
+        style: const TextStyle(fontWeight: FontWeight.w500),
+      ),
+      trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+      onTap: () {
+
+        /// 🔥 Navigation Logic (Customize here)
+        switch (title) {
+
+          case "Main Wallet":
+            Get.to(() => WalletScreen());
+            break;
+
+          case "Level Income":
+            Get.to(() => LevelIncomeScreen());
+            break;
+
+          case "Pool Income":
+            Get.to(() => PoolIncomeScreen());
+            break;
+
+          case "Shopping Level Income":
+            Get.to(() => ShoppingLevelIncomeScreen());
+            break;
+
+          case "Withdraw Request":
+            Get.to(() => WithdrawAmountScreen());
+
+            break;
+
+          case "Add Fund":
+            Get.to(() => LevelTeamListScreen());
+            break;
+
+          case "Level Deduction Wallet":
+            break;
+
+          case "Pool Deduction Wallet":
+            break;
+
+          case "Transaction History":
+            break;
+
+          case "Wallet History":
+            break;
+
+          case "Reward Income":
+            Get.to(() => RewardIncomeScreen());
+            break;
+
+          case "Add Fund History":
+            break;
+
+          case "Direct Fund History":
+            break;
+
+          case "W to W Fund":
+            break;
+        }
+      },
+    );
+  }
+
+  Widget _networkItem(String title) {
+    return ListTile(
+      leading: const Icon(Icons.arrow_forward, color: AppColors.primaryGold, size: 20),
+      title: Text(
+        title,
+        style: const TextStyle(fontWeight: FontWeight.w500),
+      ),
+        onTap: () {
+          switch (title) {
+            case "Level Team List":
+              Get.to(() => const LevelTeamListScreen());
+
+              break;
+
+            case "Direct Team":
+            // Get.to(() => const DirectTeamScreen());
+
+              break;
+
+            case "Pool 1 Members":
+            // Get.to(() => const Pool1MemberScreen());
+              Get.to(() => const AutoPoolMemberScreen(poolType: 'Welcome%20Pool',));
+
+              break;
+
+            case "Pool 2 Members":
+            // Get.to(() => const Pool2MemberScreen());
+              Get.to(() => const AutoPoolMemberScreen(poolType: 'Public%20Pool',));
+
+              break;
+
+            case "Pool 3 Members":
+              Get.to(() => const AutoPoolMemberScreen(poolType: 'Silver%20Pool',));
+              break;
+
+            case "Pool 4 Members":
+              Get.to(() => const AutoPoolMemberScreen(poolType: 'Gold%20Pool',));
+              break;
+
+            case "Pool 5 Members":
+              Get.to(() => const AutoPoolMemberScreen(poolType: 'Diamond%20Pool',));
+              break;
+
+            case "Pool 6 Members":
+              Get.to(() => const AutoPoolMemberScreen(poolType: 'Royal%20Pool',));
+              break;
+
+            case "Pool 7 Members":
+              Get.to(() => const AutoPoolMemberScreen(poolType: 'King%20Pool',));
+              break;
+
+            case "Pool 8 Members":
+              Get.to(() => const AutoPoolMemberScreen(poolType: 'Power%20Pool',));
+              break;
+
+            case "Pool 9 Members":
+              Get.to(() => const AutoPoolMemberScreen(poolType: 'Immortal%20Pool',));
+              break;
+
+            case "Refral Link":
+            // Get.to(() => const ReferralLinkScreen());
+
+              break;
+          }
+        },
     );
   }
 }

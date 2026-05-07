@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-
 import 'View/  payment_page.dart';
 import 'View/SplashScreen.dart';
 import 'View/cart_page.dart';
@@ -10,6 +9,7 @@ import 'location/map_location_picker.dart';
 import 'theme/app_colors.dart';
 
 void main() async {
+
   WidgetsFlutterBinding.ensureInitialized();
 
   await Hive.initFlutter();
@@ -19,31 +19,48 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
+
     return GetMaterialApp(
+
       title: 'ShopUs - Ecommerce App',
+
       debugShowCheckedModeBanner: false,
 
       theme: ThemeData(
+
         colorScheme: ColorScheme.fromSeed(
           seedColor: AppColors.primaryGold,
           brightness: Brightness.light,
         ),
+
         useMaterial3: true,
+
         primaryColor: AppColors.primaryGold,
-        scaffoldBackgroundColor: AppColors.backgroundWhite,
+
+        scaffoldBackgroundColor:
+        AppColors.backgroundWhite,
+
         appBarTheme: const AppBarTheme(
           backgroundColor: AppColors.backgroundBlack,
           foregroundColor: AppColors.textWhite,
           elevation: 0,
         ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
+
+        elevatedButtonTheme:
+        ElevatedButtonThemeData(
+
           style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.primaryGold,
-            foregroundColor: AppColors.textBlack,
+            backgroundColor:
+            AppColors.primaryGold,
+
+            foregroundColor:
+            AppColors.textBlack,
+
             elevation: 2,
           ),
         ),
@@ -52,9 +69,62 @@ class MyApp extends StatelessWidget {
       home: const SplashScreen(),
 
       getPages: [
-        GetPage(name: '/checkout', page: () => const CheckoutPage()),
-        GetPage(name: '/payment', page: () => const PaymentPage()),
-        GetPage(name: '/map', page: () => const MapLocationPicker()),
+
+        /// CHECKOUT PAGE
+        GetPage(
+
+          name: '/checkout',
+
+          page: () {
+
+            final args = Get.arguments ?? {};
+
+            return CheckoutPage(
+
+              subtotal:
+              (args["subtotal"] ?? 0).toDouble(),
+
+              totalAmount:
+              (args["totalAmount"] ?? 0).toDouble(),
+
+              userName:
+              args["userName"] ?? "",
+
+              userPhone:
+              args["userPhone"] ?? "",
+
+              userAddress:
+              args["userAddress"] ?? "",
+            );
+          },
+        ),
+
+        /// PAYMENT PAGE
+        GetPage(
+
+          name: '/payment',
+
+          page: () {
+
+            final args = Get.arguments ?? {};
+
+            return PaymentPage(
+
+              totalAmount:
+              (args["totalAmount"] ?? 0).toDouble(),
+
+              walletBalance:
+              (args["walletBalance"] ?? 0).toDouble(),
+            );
+          },
+        ),
+
+        /// MAP PAGE
+        GetPage(
+          name: '/map',
+          page: () => const MapLocationPicker(),
+        ),
+
       ],
     );
   }

@@ -78,7 +78,7 @@ class _SignInScreenState extends State<SignInScreen> {
                             colors: [
                               Colors.transparent,
                               AppColors.backgroundBlack.withOpacity(0.8),
-                              AppColors.primaryGold.withOpacity(0.2),
+                              AppColors.primaryPurple.withOpacity(0.2),
                             ],
                           ),
                         ),
@@ -134,7 +134,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                       style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: _controller.isSignIn.value ? FontWeight.w600 : FontWeight.w400,
-                                        color: _controller.isSignIn.value ? AppColors.primaryGold : AppColors.textGray,
+                                        color: _controller.isSignIn.value ? AppColors.primaryPurple : AppColors.textGray,
                                       ),
                                     ),
                                     const SizedBox(height: 8),
@@ -142,7 +142,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                       duration: const Duration(milliseconds: 300),
                                       height: 3,
                                       decoration: BoxDecoration(
-                                        color: _controller.isSignIn.value ? AppColors.primaryGold : Colors.transparent,
+                                        color: _controller.isSignIn.value ? AppColors.primaryPurple : Colors.transparent,
                                         borderRadius: const BorderRadius.all(Radius.circular(2)),
                                       ),
                                     ),
@@ -162,7 +162,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                       style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: !_controller.isSignIn.value ? FontWeight.w600 : FontWeight.w400,
-                                        color: !_controller.isSignIn.value ? AppColors.primaryGold : AppColors.textGray,
+                                        color: !_controller.isSignIn.value ? AppColors.primaryPurple : AppColors.textGray,
                                       ),
                                     ),
                                     const SizedBox(height: 8),
@@ -170,7 +170,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                       duration: const Duration(milliseconds: 300),
                                       height: 3,
                                       decoration: BoxDecoration(
-                                        color: !_controller.isSignIn.value ? AppColors.primaryGold : Colors.transparent,
+                                        color: !_controller.isSignIn.value ? AppColors.primaryPurple : Colors.transparent,
                                         borderRadius: const BorderRadius.all(Radius.circular(2)),
                                       ),
                                     ),
@@ -181,114 +181,10 @@ class _SignInScreenState extends State<SignInScreen> {
                           ],
                         ),
                         const SizedBox(height: 32),
-                        // Username field
-                        Obx(() => TextFormField(
-                          controller: _controller.usernameController,
-                          decoration: InputDecoration(
-                            labelText: _controller.isSignIn.value ? 'Self ID' : 'Username',
-                            hintText: _controller.isSignIn.value ? 'e.g., GFC1234567' : 'Full Name',
-                            filled: true,
-                            fillColor: AppColors.backgroundWhite,
-                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: const BorderSide(color: AppColors.primaryGold, width: 2),
-                            ),
-                          ),
-                          validator: (value) {
-                            if (value == null || value.trim().isEmpty) {
-                              return _controller.isSignIn.value ? 'Please enter Self ID' : 'Please enter username';
-                            }
-                            return null;
-                          },
-                        )),
-                        // Email field - only for Sign Up
-                        AnimatedSize(
-                          duration: const Duration(milliseconds: 300),
-                          child: Obx(() => _controller.isSignIn.value
-                              ? const SizedBox.shrink()
-                              : Column(
-                                  children: [
-                                    const SizedBox(height: 16),
-                                    TextFormField(
-                                      controller: _controller.emailController,
-                                      keyboardType: TextInputType.emailAddress,
-                                      decoration: InputDecoration(
-                                        labelText: 'Email',
-                                        filled: true,
-                                        fillColor: AppColors.backgroundWhite,
-                                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(12),
-                                          borderSide: const BorderSide(color: AppColors.primaryGold, width: 2),
-                                        ),
-                                      ),
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) return 'Please enter email';
-                                        if (!value.contains('@')) return 'Please enter a valid email';
-                                        return null;
-                                      },
-                                    ),
-                                  ],
-                                )),
-                        ),
-                        const SizedBox(height: 16),
-                        // Password field
-                        Obx(() => TextFormField(
-                          controller: _controller.passwordController,
-                          obscureText: _controller.obscurePassword.value,
-                          decoration: InputDecoration(
-                            labelText: 'Password',
-                            filled: true,
-                            fillColor: AppColors.backgroundWhite,
-                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: const BorderSide(color: AppColors.primaryGold, width: 2),
-                            ),
-                            suffixIcon: IconButton(
-                              icon: Icon(
-                                _controller.obscurePassword.value
-                                    ? Icons.visibility_outlined
-                                    : Icons.visibility_off_outlined,
-                              ),
-                              onPressed: _controller.togglePasswordVisibility,
-                            ),
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) return 'Please enter password';
-                            if (!_controller.isSignIn.value && value.length < 6) {
-                              return 'Password must be at least 6 characters';
-                            }
-                            return null;
-                          },
-                        )),
-                        const SizedBox(height: 16),
-                        // Remember me and Forgot password
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Obx(() => Checkbox(
-                                  value: _controller.rememberMe.value,
-                                  onChanged: (value) => _controller.rememberMe.value = value ?? false,
-                                  activeColor: AppColors.primaryGold,
-                                )),
-                                const Text('Remember me', style: TextStyle(fontSize: 14)),
-                              ],
-                            ),
-                            Obx(() => _controller.isSignIn.value
-                                ? TextButton(
-                                    onPressed: _handleForgotPassword,
-                                    child: const Text(
-                                      'Forgot password?',
-                                      style: TextStyle(color: AppColors.primaryGold, fontSize: 14),
-                                    ),
-                                  )
-                                : const SizedBox.shrink()),
-                          ],
-                        ),
+                        // Forms Section
+                        Obx(() => _controller.isSignIn.value
+                            ? _buildSignInFields()
+                            : _buildSignUpFields()),
                         const SizedBox(height: 24),
                         // Sign In / Sign Up button
                         SizedBox(
@@ -297,7 +193,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           child: Obx(() => ElevatedButton(
                             onPressed: _controller.isLoading.value ? null : _handleSubmit,
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.primaryGold,
+                              backgroundColor: AppColors.primaryPurple,
                               foregroundColor: AppColors.textBlack,
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                             ),
@@ -346,6 +242,164 @@ class _SignInScreenState extends State<SignInScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildSignInFields() {
+    return Column(
+      children: [
+        TextFormField(
+          controller: _controller.usernameController,
+          decoration: InputDecoration(
+            labelText: 'Self ID',
+            hintText: 'e.g., GFC1234567',
+            filled: true,
+            fillColor: AppColors.backgroundWhite,
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: AppColors.primaryPurple, width: 2),
+            ),
+          ),
+          validator: (value) {
+            if (value == null || value.trim().isEmpty) return 'Please enter Self ID';
+            return null;
+          },
+        ),
+        const SizedBox(height: 16),
+        Obx(() => TextFormField(
+          controller: _controller.passwordController,
+          obscureText: _controller.obscurePassword.value,
+          decoration: InputDecoration(
+            labelText: 'Password',
+            filled: true,
+            fillColor: AppColors.backgroundWhite,
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: AppColors.primaryPurple, width: 2),
+            ),
+            suffixIcon: IconButton(
+              icon: Icon(
+                _controller.obscurePassword.value ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+              ),
+              onPressed: _controller.togglePasswordVisibility,
+            ),
+          ),
+          validator: (value) {
+            if (value == null || value.isEmpty) return 'Please enter password';
+            return null;
+          },
+        )),
+        const SizedBox(height: 16),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Obx(() => Checkbox(
+                  value: _controller.rememberMe.value,
+                  onChanged: (value) => _controller.rememberMe.value = value ?? false,
+                  activeColor: AppColors.primaryPurple,
+                )),
+                const Text('Remember me', style: TextStyle(fontSize: 14)),
+              ],
+            ),
+            TextButton(
+              onPressed: _handleForgotPassword,
+              child: const Text('Forgot password?', style: TextStyle(color: AppColors.primaryPurple, fontSize: 14)),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSignUpFields() {
+    return Column(
+      children: [
+        _buildTextField('Glamorous Identification ID*', _controller.glamorousIdController),
+        const SizedBox(height: 16),
+        _buildTextField('Sponser ID*', _controller.sponsorIdController),
+        const SizedBox(height: 16),
+        _buildTextField('Sponser Name', _controller.sponsorNameController, isRequired: false),
+        const SizedBox(height: 16),
+        _buildTextField('Full Name*', _controller.usernameController),
+        const SizedBox(height: 16),
+        _buildTextField('Email*', _controller.emailController, isEmail: true),
+        const SizedBox(height: 16),
+        _buildTextField('Mobile Number*', _controller.mobileController, isPhone: true),
+        const SizedBox(height: 16),
+        Obx(() => TextFormField(
+          controller: _controller.passwordController,
+          obscureText: _controller.obscurePassword.value,
+          decoration: InputDecoration(
+            label: RichText(
+              text: const TextSpan(
+                text: 'Password',
+                style: TextStyle(color: AppColors.textGray, fontSize: 16),
+                children: [
+                  TextSpan(text: '*', style: TextStyle(color: Colors.red)),
+                ],
+              ),
+            ),
+            filled: true,
+            fillColor: AppColors.backgroundWhite,
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: AppColors.primaryPurple, width: 2),
+            ),
+            suffixIcon: IconButton(
+              icon: Icon(
+                _controller.obscurePassword.value ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+              ),
+              onPressed: _controller.togglePasswordVisibility,
+            ),
+          ),
+          validator: (value) {
+            if (value == null || value.isEmpty) return 'Please enter password';
+            if (value.length < 6) return 'Password must be at least 6 characters';
+            return null;
+          },
+        )),
+      ],
+    );
+  }
+
+  Widget _buildTextField(String label, TextEditingController controller, {bool isRequired = true, bool isEmail = false, bool isPhone = false}) {
+    String cleanLabel = label.replaceAll('*', '');
+    return TextFormField(
+      controller: controller,
+      keyboardType: isEmail ? TextInputType.emailAddress : (isPhone ? TextInputType.phone : TextInputType.text),
+      decoration: InputDecoration(
+        label: RichText(
+          text: TextSpan(
+            text: cleanLabel,
+            style: const TextStyle(color: AppColors.textGray, fontSize: 16),
+            children: [
+              if (label.endsWith('*'))
+                const TextSpan(text: '*', style: TextStyle(color: Colors.red)),
+            ],
+          ),
+        ),
+        filled: true,
+        fillColor: AppColors.backgroundWhite,
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(color: AppColors.primaryPurple, width: 2),
+        ),
+      ),
+      validator: (value) {
+        if (isRequired && (value == null || value.isEmpty)) {
+          return 'Please enter $cleanLabel';
+        }
+        if (isEmail && value != null && value.isNotEmpty && !value.contains('@')) {
+          return 'Please enter a valid email';
+        }
+        return null;
+      },
     );
   }
 

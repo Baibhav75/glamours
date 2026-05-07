@@ -18,72 +18,108 @@ class PopularClothsSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        /// Header
+
+        /// HEADER
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment:
+            MainAxisAlignment.spaceBetween,
             children: [
+
               const Text(
                 "Categories",
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold,
                   color: AppColors.textBlack,
                 ),
               ),
+
               TextButton(
                 onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>  AllPopularClothesScreen(),
+                      builder: (context) =>
+                          AllPopularClothesScreen(),
                     ),
                   );
-                  // TODO: Navigate to All Categories if required
                 },
+
                 child: const Text(
                   "View All",
                   style: TextStyle(
-                    color: AppColors.primaryGold,
+                    color: Color(0xFFF72585),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),
 
-        const SizedBox(height: 10),
+        const SizedBox(height: 14),
 
-        /// 🔄 Dynamic Categories List (Horizontal & Small)
+        /// CATEGORY GRID
         Obx(() {
-          /// Loading
+
+          /// LOADING
           if (controller.isLoading.value) {
             return const SizedBox(
-              height: 110,
-              child: Center(child: CircularProgressIndicator()),
+              height: 200,
+              child: Center(
+                child: CircularProgressIndicator(
+                  color: Color(0xFFF72585),
+                ),
+              ),
             );
           }
 
-          /// Empty
+          /// EMPTY
           if (controller.categories.isEmpty) {
             return const SizedBox(
-              height: 110,
-              child: Center(child: Text("No Categories Found")),
+              height: 120,
+              child: Center(
+                child: Text(
+                  "No Categories Found",
+                ),
+              ),
             );
           }
 
-          return SizedBox(
-            height: 110,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemCount: controller.categories.length,
-              physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              separatorBuilder: (context, index) => const SizedBox(width: 16),
+          /// GRID VIEW
+          return Padding(
+            padding:
+            const EdgeInsets.symmetric(horizontal: 12),
+
+            child: GridView.builder(
+
+              shrinkWrap: true,
+
+              physics:
+              const NeverScrollableScrollPhysics(),
+
+              itemCount:
+              controller.categories.length,
+
+              gridDelegate:
+              const SliverGridDelegateWithFixedCrossAxisCount(
+
+                crossAxisCount: 2,
+
+                crossAxisSpacing: 14,
+
+                mainAxisSpacing: 14,
+
+                childAspectRatio: 0.72,
+              ),
+
               itemBuilder: (context, index) {
-                final category = controller.categories[index];
+
+                final category =
+                controller.categories[index];
+
                 return _buildCategoryItem(category);
               },
             ),
@@ -96,62 +132,127 @@ class PopularClothsSection extends StatelessWidget {
   /// 👗 Category Item Box (Small, Hide Price, Improved UI)
   Widget _buildCategoryItem(category) {
     return GestureDetector(
+
       onTap: () {
-        Get.to(() => PopularCategoryScreen(
-          catId: category.catId,
-          categoryName: category.name,
-        ));
+
+        Get.to(
+              () => PopularCategoryScreen(
+            catId: category.catId,
+            categoryName: category.name,
+          ),
+        );
       },
-      child: SizedBox(
-        width: 75,
+
+      child: Container(
+
+        decoration: BoxDecoration(
+
+          color: Colors.white,
+
+          borderRadius: BorderRadius.circular(24),
+
+          boxShadow: [
+
+            BoxShadow(
+              color: Colors.black.withOpacity(0.08),
+              blurRadius: 10,
+              offset: const Offset(0, 5),
+            ),
+          ],
+        ),
+
         child: Column(
           children: [
-            /// Circular Image Box
-            Container(
-              height: 75,
-              width: 75,
-              decoration: BoxDecoration(
-                color: AppColors.backgroundWhite,
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.08),
-                    blurRadius: 8,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: ClipOval(
+
+            /// TRIANGLE IMAGE DESIGN
+            ClipPath(
+              clipper: TriangleClipper(),
+
+              child: SizedBox(
+                height: 130,
+                width: double.infinity,
+
                 child: CachedNetworkImage(
+
+                  imageUrl:
+                  ApiConstants.getImageUrl(
+                    category.image,
+                  ),
+
                   fit: BoxFit.cover,
-                  imageUrl: ApiConstants.getImageUrl(category.image),
-                  placeholder: (_, __) => const Center(
-                    child: SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(strokeWidth: 2),
+
+                  placeholder: (_, __) =>
+                  const Center(
+                    child: CircularProgressIndicator(
+                      color: Color(0xFFF72585),
                     ),
                   ),
-                  errorWidget: (_, __, ___) => const Icon(
+
+                  errorWidget: (_, __, ___) =>
+                  const Icon(
                     Icons.image,
-                    color: Colors.grey,
                   ),
                 ),
               ),
             ),
 
-            const SizedBox(height: 8),
+            const SizedBox(height: 14),
 
-            /// Category Name
-            Text(
-              category.name,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-                color: AppColors.textBlack,
+            /// CATEGORY NAME
+            Padding(
+              padding:
+              const EdgeInsets.symmetric(
+                horizontal: 10,
+              ),
+
+              child: Text(
+
+                category.name,
+
+                maxLines: 2,
+
+                overflow: TextOverflow.ellipsis,
+
+                textAlign: TextAlign.center,
+
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+
+            const Spacer(),
+
+            /// BUTTON
+            Container(
+              margin:
+              const EdgeInsets.only(bottom: 14),
+
+              padding:
+              const EdgeInsets.symmetric(
+                horizontal: 18,
+                vertical: 8,
+              ),
+
+              decoration: BoxDecoration(
+
+                color: const Color(0xFFF72585),
+
+                borderRadius:
+                BorderRadius.circular(30),
+              ),
+
+              child: const Text(
+
+                "Explore",
+
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 12,
+                ),
               ),
             ),
           ],
@@ -159,4 +260,39 @@ class PopularClothsSection extends StatelessWidget {
       ),
     );
   }
+}
+
+class TriangleClipper
+    extends CustomClipper<Path> {
+
+  @override
+  Path getClip(Size size) {
+
+    Path path = Path();
+
+    path.lineTo(
+      0,
+      size.height - 40,
+    );
+
+    path.quadraticBezierTo(
+      size.width / 2,
+      size.height,
+      size.width,
+      size.height - 40,
+    );
+
+    path.lineTo(size.width, 0);
+
+    path.close();
+
+    return path;
+  }
+
+  @override
+  bool shouldReclip(
+      CustomClipper<Path> oldClipper) {
+    return false;
+  }
+
 }

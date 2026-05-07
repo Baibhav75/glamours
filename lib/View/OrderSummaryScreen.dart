@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '  payment_page.dart';
 import '../location/select_address_sheet.dart';
 import '../theme/app_colors.dart';
+import 'checkout_page.dart';
 
 class OrderSummaryScreen extends StatefulWidget {
   final Map<dynamic, dynamic> product;
@@ -103,7 +104,15 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
 
                             setState(() {
 
-                              userAddress = result["address"];
+                              if (result.containsKey("address")) {
+                                userAddress = result["address"];
+                              }
+                              if (result.containsKey("name")) {
+                                userName = result["name"];
+                              }
+                              if (result.containsKey("phone")) {
+                                userPhone = result["phone"];
+                              }
 
                             });
 
@@ -420,7 +429,18 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const PaymentPage(),
+                    builder: (context) => CheckoutPage(
+
+                      subtotal: (price * widget.quantity),
+
+                      totalAmount: totalAmount,
+
+                      userName: userName,
+
+                      userPhone: userPhone,
+
+                      userAddress: userAddress,
+                    ),
                   ),
                 );
 

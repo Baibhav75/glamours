@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import '../profile/updated_profile.dart';
 import '../theme/app_colors.dart';
 import '../Controller/profile_controller.dart';
 
@@ -38,14 +39,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final List<String> _countries = ['India', 'Bangladesh', 'USA', 'UK'];
   final List<String> _genders = ['Male', 'Female', 'Other'];
 
+  late String selfId;
+
   @override
   void initState() {
     super.initState();
 
     final box = Hive.box('authBox');
-    String? selfId = box.get('selfId');
+    selfId = box.get('selfId') ?? ""; // ✅ FIXED
 
-    if (selfId != null) {
+    if (selfId.isNotEmpty) {
       controller.fetchProfile(selfId);
     }
   }
@@ -68,7 +71,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     return Scaffold(
       backgroundColor: Colors.grey.shade50,
       appBar: AppBar(
-        backgroundColor: AppColors.backgroundBlack,
+        backgroundColor: AppColors.primaryPurple,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.pop(context),
@@ -114,9 +117,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
         /// 🔥 SET VALUE ONLY ONCE
         if (_nameController.text.isEmpty) {
-          _nameController.text = data.fullName;
-          _phoneController.text = data.mobile;
-          _selfIdController.text = data.selfId;
+          _nameController.text = data.fullName ?? "";
+          _phoneController.text = data.mobile ?? "";
+          _selfIdController.text = data.selfId ?? "";
           _sponsorIdController.text = data.sponsorId ?? "";
           _addressController.text = data.address ?? "";
           _joiningDateController.text = data.joiningDate ?? "";
@@ -132,7 +135,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           _selectedCity = data.city ?? "Delhi";
           _selectedState = data.state ?? "Delhi";
           _selectedCountry = data.country ?? "India";
-          _selectedGender = data.gender ?? "Male"; // Set selected gender
+          _selectedGender = _genders.contains(data.gender)
+              ? data.gender!
+              : "Male";
         }
 
         return SingleChildScrollView(
@@ -179,7 +184,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   enabled: false,
                   decoration: InputDecoration(
                     labelText: 'Self ID',
-                    prefixIcon: const Icon(Icons.badge_outlined, color: AppColors.primaryGold),
+                    prefixIcon: const Icon(Icons.badge_outlined, color: AppColors.primaryPurple),
                     filled: true,
                     fillColor: Colors.grey.shade200,
                     border: OutlineInputBorder(
@@ -196,7 +201,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   enabled: false,
                   decoration: InputDecoration(
                     labelText: 'Joining Date',
-                    prefixIcon: const Icon(Icons.calendar_today_outlined, color: AppColors.primaryGold),
+                    prefixIcon: const Icon(Icons.calendar_today_outlined, color: AppColors.primaryPurple),
                     filled: true,
                     fillColor: Colors.grey.shade200,
                     border: OutlineInputBorder(
@@ -310,7 +315,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       height: 120,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        border: Border.all(color: AppColors.primaryGold, width: 3),
+        border: Border.all(color: AppColors.primaryPurple, width: 3),
       ),
       child: ClipOval(
         child: CachedNetworkImage(
@@ -332,7 +337,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       controller: controller,
       decoration: InputDecoration(
         labelText: label,
-        prefixIcon: Icon(icon, color: AppColors.primaryGold),
+        prefixIcon: Icon(icon, color: AppColors.primaryPurple),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
         ),
@@ -377,14 +382,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     return SizedBox(
       width: double.infinity,
       height: 55,
-      child: ElevatedButton(
+      child:ElevatedButton(
         onPressed: () {
-          if (_formKey.currentState!.validate()) {
-            Get.snackbar("Success", "Profile Updated");
-          }
+          Get.to(() => updatedProfileScreen(selfId: selfId));
         },
-        child: const Text("Update Profile"),
-      ),
+        child: Text("Go to Edit Profile"),
+      )
     );
   }
 }
