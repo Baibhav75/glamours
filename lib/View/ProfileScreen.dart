@@ -5,16 +5,22 @@ import 'package:glamorous/ViewSection/wallet_screen.dart';
 import '../Controller/profile_controller.dart';
 import '../ViewSection/MyNetWorkView/AutoPoolMemberScreen.dart';
 import '../ViewSection/ReferralLinkScreen.dart';
+import '../ViewSection/ShoppingView/UserPoolActivationListScreen.dart';
 import '../ViewSection/WelcomeLetterScreen.dart';
+import '../ViewSection/all_popular_clothes_screen.dart';
+import '../ViewSection/walletsView/LevelDeductionWalletScreen.dart';
 import '../ViewSection/walletsView/LevelTeamListScreen.dart';
+import '../ViewSection/walletsView/PoolDeductionWalletScreen.dart';
 import '../ViewSection/walletsView/PoolIncome.dart';
 import '../ViewSection/walletsView/RewardHistory.dart';
 import '../ViewSection/walletsView/ShoppingLeveIncomeScreen.dart';
+import '../ViewSection/walletsView/TransactionHistoryScreen.dart';
 import '../ViewSection/walletsView/WithDrawRequest.dart';
 import '../ViewSection/walletsView/leaveIncomeScreen.dart';
 import '../location/add_address_page.dart';
 import '../profile/AppInfoPage.dart';
 import '../profile/ContactUsPage.dart';
+import '../profile/UserTreeScreen.dart';
 import '../theme/app_colors.dart';
 import 'ChangePassword.dart';
 import 'EditProfileScreen.dart';
@@ -282,44 +288,51 @@ class _ProfileScreenState extends State<ProfileScreen> {
       {
         'title': 'All Categories',
         'icon': Icons.grid_view_outlined,
-        'onTap': () {},
-      },
-      {
-        'title': 'Terms And Conditions',
-        'icon': Icons.description_outlined,
         'onTap': () {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const AppInfoPage(),
+              builder: (context) =>  AllPopularClothesScreen(),
             ),
           );
         },
       },
-      {
-        'title': 'Privacy Policy',
-        'icon': Icons.lock_outline,
-        'onTap': () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const AppInfoPage(),
-            ),
-          );
-        },
-      },
-      {
-        'title': 'FAQ',
-        'icon': Icons.help_outline,
-        'onTap': () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const AppInfoPage(),
-            ),
-          );
-        },
-      },
+      // {
+      //   'title': 'Terms And Conditions',
+      //   'icon': Icons.description_outlined,
+      //   'onTap': () {
+      //     Navigator.push(
+      //       context,
+      //       MaterialPageRoute(
+      //         builder: (context) => const AppInfoPage(),
+      //       ),
+      //     );
+      //   },
+      // },
+      // {
+      //   'title': 'Privacy Policy',
+      //   'icon': Icons.lock_outline,
+      //   'onTap': () {
+      //     Navigator.push(
+      //       context,
+      //       MaterialPageRoute(
+      //         builder: (context) => const AppInfoPage(),
+      //       ),
+      //     );
+      //   },
+      // },
+      // {
+      //   'title': 'FAQ',
+      //   'icon': Icons.help_outline,
+      //   'onTap': () {
+      //     Navigator.push(
+      //       context,
+      //       MaterialPageRoute(
+      //         builder: (context) => const AppInfoPage(),
+      //       ),
+      //     );
+      //   },
+      // },
       {
         'title': 'About Us',
         'icon': Icons.info_outline,
@@ -351,6 +364,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
       {
         'title': 'My Network',
         'icon': Icons.network_check_rounded,
+        'onTap': () {},
+      },
+
+      {
+        'title': 'Shopping',
+        'icon': Icons.shopping_bag_outlined,
         'onTap': () {},
       },
 
@@ -392,12 +411,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           );
         },
       },
-
-      //case "Refral Link":
-      //
-      //   Get.to(() => const ReferralLinkScreen());
-      //
-      //   break;
 
 
       {
@@ -527,6 +540,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       _networkItem("Pool 8 Members"),
                       _networkItem("Pool 9 Members"),
                       _networkItem("Refral Link"),
+                      _networkItem("View Tree"),
+
                     ],
                   ),
                 ),
@@ -534,6 +549,98 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   height: 1,
                   thickness: 1,
                   color: Colors.grey.shade200,
+                  indent: 56,
+                ),
+              ],
+            );
+          }
+
+          if (item['title'] == 'Shopping') {
+
+            return Column(
+
+              children: [
+
+                Theme(
+
+                  data: Theme.of(context).copyWith(
+                    dividerColor: Colors.transparent,
+                  ),
+
+                  child: ExpansionTile(
+
+                    leading: Icon(
+
+                      item['icon'] as IconData,
+
+                      color: AppColors.primaryPurple,
+                    ),
+
+                    title: Text(
+
+                      item['title'] as String,
+
+                      style: const TextStyle(
+
+                        fontSize: 16,
+
+                        fontWeight: FontWeight.w500,
+
+                        color: Colors.black,
+                      ),
+                    ),
+
+                    childrenPadding:
+                    const EdgeInsets.only(left: 16),
+
+                    children: [
+
+                      _shoppingItem(
+                        "View Auto Pool",
+                        Icons.remove_red_eye,
+                      ),
+
+                      _shoppingItem(
+                        "Pool Activation List",
+                        Icons.list_alt,
+                      ),
+
+                      _shoppingItem(
+                        "Direct User Activation",
+                        Icons.person_add_alt,
+                      ),
+
+                      _shoppingItem(
+                        "Direct User Activation History",
+                        Icons.history,
+                      ),
+
+                      _shoppingItem(
+                        "Shop Now",
+                        Icons.shopping_cart,
+                      ),
+
+                      _shoppingItem(
+                        "Order History",
+                        Icons.receipt_long,
+                      ),
+
+                      _shoppingItem(
+                        "Buy Investment Voucher",
+                        Icons.card_giftcard,
+                      ),
+                    ],
+                  ),
+                ),
+
+                Divider(
+
+                  height: 1,
+
+                  thickness: 1,
+
+                  color: Colors.grey.shade200,
+
                   indent: 56,
                 ),
               ],
@@ -623,15 +730,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
             break;
 
           case "Level Deduction Wallet":
+            Get.to(() => LevelDeductionWalletScreen());
             break;
 
           case "Pool Deduction Wallet":
+            Get.to(() =>  PoolDeductionWalletScreen());
             break;
 
           case "Transaction History":
+            Get.to(() => TransactionHistoryScreen ());
             break;
 
           case "Wallet History":
+
+
             break;
 
           case "Reward Income":
@@ -712,10 +824,93 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
             case "Refral Link":
             // Get.to(() => const ReferralLinkScreen());
+              Get.to(() => const ReferralLinkScreen());
 
+              break;
+
+            case "View Tree":
+              Get.to(() => const UserTreeScreen());
               break;
           }
         },
     );
   }
+  Widget _shoppingItem(
+      String title,
+      IconData icon,
+      ) {
+
+    return ListTile(
+
+      leading: CircleAvatar(
+
+        //backgroundColor: Colors.purple.withOpacity(0.1),
+        //         child: Icon(icon, color: Colors.purple),
+
+        backgroundColor:
+        Colors.purple.withOpacity(0.1),
+
+        child: Icon(icon, color: Colors.purple),
+      ),
+
+      title: Text(
+
+        title,
+
+        style: const TextStyle(
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+
+      trailing: const Icon(
+        Icons.arrow_forward_ios,
+        size: 16,
+      ),
+
+      onTap: () {
+
+        switch (title) {
+
+          case "View Auto Pool":
+
+            Get.to(() =>
+            const AutoPoolMemberScreen(
+              poolType: 'Public%20Pool',
+            ));
+
+            break;
+
+          case "Pool Activation List":
+            Get.to(() =>  UserPoolActivationListScreen());
+
+            break;
+
+          case "Direct User Activation":
+
+            break;
+
+          case "Direct User Activation History":
+
+            break;
+
+          case "Shop Now":
+
+            Get.to(() => const CartPage());
+
+            break;
+
+          case "Order History":
+
+            Get.to(() => const OrderPage());
+
+            break;
+
+          case "Buy Investment Voucher":
+
+            break;
+        }
+      },
+    );
+  }
+
 }

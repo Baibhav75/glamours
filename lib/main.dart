@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'View/  payment_page.dart';
 import 'View/SplashScreen.dart';
-import 'View/cart_page.dart';
 import 'View/checkout_page.dart';
 import 'location/map_location_picker.dart';
 import 'theme/app_colors.dart';

@@ -80,6 +80,7 @@ class PopularCategoryScreen extends StatelessWidget {
               return GestureDetector(
                 onTap: () {
                   Get.to(() => ProductDetailsPage(product: {
+                    "productId": product.productId,
                     "name": product.productName,
                     "image": ApiConstants.getImageUrl(product.image1),
                     "originalPrice": product.mrp,

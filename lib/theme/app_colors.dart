@@ -111,4 +111,6 @@ class AppColors {
   static const Color onboardingBlue = Color(0xFFE8F4FA);
   static const Color onboardingPurple = Color(0xFFF4E3F0);
   static const Color borderPurple = primaryPurple;
+
+
 }

@@ -88,7 +88,62 @@ class ApiConstants {
       ) =>
 
       "$baseUrl/ShoppingLevelIncome/GetShoppingLevelIncome?Self_Id=$selfId";
+
+  static String levelDeductionWallet(
+      String selfId,
+      ) =>
+
+      "$baseUrl/LevelDeductionWallet/GetLevelDeductionWallet?Self_Id=$selfId";
+
+
+
+  static String poolDeductionWallet(
+      String selfId,
+      ) =>
+
+      "$baseUrl/PoolDeductionWallet/GetPoolDeductionWallet?Self_Id=$selfId";
+
+
+
+  static String transactionHistory(
+      String selfId,
+      ) =>
+
+      "$baseUrl/TransactionHistory/GetTransactionHistory?Self_Id=$selfId";
+
+  static String userTree(
+      String selfId,
+      ) =>
+
+      "$baseUrl/UserTree/GetUserTree?Self_Id=$selfId";
+
+  static String userPoolActivationList(
+      String selfId,
+      ) =>
+
+      "$baseUrl/UserPoolActivationList/GetUserPoolActivationList?Self_Id=$selfId";
+
+
+  static String getCart(
+      String selfId,
+      ) =>
+
+      "$baseUrl/Cart/GetCart?Self_Id=$selfId";
+
+  /// PRODUCT DETAILS
+  static String productDetails(
+      String selfId,
+      String productId,
+      ) =>
+      "$baseUrl/ProductDetails/GetProductDetails?Self_Id=$selfId&ProductID=$productId";
+
+  /// IMAGE BASE URL
+  static const String imageBaseUrl =
+      "https://glamorousfilmcity.com";
+
 }
+
+
 
 
 

@@ -1,12 +1,18 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../Model/AutoPoolMemberModel.dart';
+import '../Model/CartModel.dart';
+import '../Model/LevelDeductionWalletModel.dart';
 import '../Model/LevelIncomeModel.dart';
 import '../Model/LevelTeamListModel.dart';
+import '../Model/PoolDeductionWalletModel.dart';
 import '../Model/PoolIncomeModel.dart';
 import '../Model/ReferralLinkModel.dart';
 import '../Model/RewardIncomeModel.dart';
 import '../Model/ShoppingLevelIncomeModel.dart';
+import '../Model/TransactionHistoryModel.dart';
+import '../Model/UserPoolActivationListModel.dart';
+import '../Model/UserTreeModel.dart';
 import '../Model/WelcomeLetterModel.dart';
 import '../Model/WithdrawAmountModel.dart';
 import '../Model/all_popular_clothes_model.dart';
@@ -19,6 +25,7 @@ import '../Model/signin_model.dart';
 import '../Model/wallet_model.dart';
 import 'api_constants.dart';
 import '/Model/UpdateProfileModel.dart';
+import '/Model/product_details_model.dart';
 
 class AuthService {
   Future<SignInModel?> login(String selfId, String password) async {
@@ -625,4 +632,381 @@ class AuthService {
       );
     }
   }
-}
+
+  Future<List<LevelDeductionWalletModel>>
+  getLevelDeductionWallet(
+      String selfId,
+      ) async {
+
+    try {
+
+      final response = await http.get(
+
+        Uri.parse(
+          ApiConstants
+              .levelDeductionWallet(
+            selfId,
+          ),
+        ),
+      );
+
+      if (response.statusCode == 200) {
+
+        final data =
+        jsonDecode(response.body);
+
+        if (data['status'] == true) {
+
+          List list = data['data'];
+
+          return list
+
+              .map(
+                (e) =>
+                LevelDeductionWalletModel
+                    .fromJson(e),
+          )
+
+              .toList();
+
+        } else {
+
+          throw Exception(
+            data['message'],
+          );
+        }
+
+      } else {
+
+        throw Exception(
+          "Server Error ${response.statusCode}",
+        );
+      }
+
+    } catch (e) {
+
+      throw Exception(
+        "Level Deduction Wallet fetch failed: $e",
+      );
+    }
+  }
+
+  Future<List<PoolDeductionWalletModel>>
+  getPoolDeductionWallet(
+      String selfId,
+      ) async {
+
+    try {
+
+      final response = await http.get(
+
+        Uri.parse(
+          ApiConstants
+              .poolDeductionWallet(
+            selfId,
+          ),
+        ),
+      );
+
+      if (response.statusCode == 200) {
+
+        final data =
+        jsonDecode(response.body);
+
+        if (data['status'] == true) {
+
+          List list = data['data'];
+
+          return list
+
+              .map(
+                (e) =>
+                PoolDeductionWalletModel
+                    .fromJson(e),
+          )
+
+              .toList();
+
+        } else {
+
+          throw Exception(
+            data['message'],
+          );
+        }
+
+      } else {
+
+        throw Exception(
+          "Server Error ${response.statusCode}",
+        );
+      }
+
+    } catch (e) {
+
+      throw Exception(
+        "Pool Deduction Wallet fetch failed: $e",
+      );
+    }
+  }
+
+
+  Future<List<TransactionHistoryModel>>
+  getTransactionHistory(
+      String selfId,
+      ) async {
+
+    try {
+
+      final response = await http.get(
+
+        Uri.parse(
+          ApiConstants.transactionHistory(
+            selfId,
+          ),
+        ),
+      );
+
+      if (response.statusCode == 200) {
+
+        final data =
+        jsonDecode(response.body);
+
+        if (data['status'] == true) {
+
+          List list = data['data'];
+
+          return list
+
+              .map(
+                (e) =>
+                TransactionHistoryModel
+                    .fromJson(e),
+          )
+
+              .toList();
+
+        } else {
+
+          throw Exception(
+            data['message'],
+          );
+        }
+
+      } else {
+
+        throw Exception(
+          "Server Error ${response.statusCode}",
+        );
+      }
+
+    } catch (e) {
+
+      throw Exception(
+        "Transaction History fetch failed: $e",
+      );
+    }
+  }
+
+  Future<UserTreeModel>
+  getUserTree(
+      String selfId,
+      ) async {
+
+    try {
+
+      final response = await http.get(
+
+        Uri.parse(
+          ApiConstants.userTree(
+            selfId,
+          ),
+        ),
+      );
+
+      if (response.statusCode == 200) {
+
+        final data =
+        jsonDecode(response.body);
+
+        if (data['status'] == true) {
+
+          return UserTreeModel
+              .fromJson(data);
+
+        } else {
+
+          throw Exception(
+            data['message'],
+          );
+        }
+
+      } else {
+
+        throw Exception(
+          "Server Error ${response.statusCode}",
+        );
+      }
+
+    } catch (e) {
+
+      throw Exception(
+        "User Tree fetch failed: $e",
+      );
+    }
+  }
+
+  Future<List<UserPoolActivationListModel>>
+  getUserPoolActivationList(
+      String selfId,
+      ) async {
+    try {
+      final response = await http.get(
+
+        Uri.parse(
+          ApiConstants
+              .userPoolActivationList(
+            selfId,
+          ),
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        final data =
+        jsonDecode(response.body);
+
+        if (data['status'] == true) {
+          List list = data['data'];
+
+          return list
+
+              .map(
+                (e) =>
+                UserPoolActivationListModel
+                    .fromJson(e),
+          )
+
+              .toList();
+        } else {
+          throw Exception(
+            data['message'],
+          );
+        }
+      } else {
+        throw Exception(
+          "Server Error ${response.statusCode}",
+        );
+      }
+    } catch (e) {
+      throw Exception(
+        "User Pool Activation List fetch failed: $e",
+      );
+    }
+  }
+
+    Future<List<CartModel>>
+    getCart(
+        String selfId,
+        ) async {
+
+      try {
+
+        final response = await http.get(
+
+          Uri.parse(
+            ApiConstants.getCart(
+              selfId,
+            ),
+          ),
+        );
+
+        if (response.statusCode == 200) {
+
+          final data =
+          jsonDecode(response.body);
+
+          if (data['status'] == true) {
+
+            List list = data['data'];
+
+            return list
+
+                .map(
+                  (e) =>
+                  CartModel.fromJson(e),
+            )
+
+                .toList();
+
+          } else {
+
+            throw Exception(
+              data['message'],
+            );
+          }
+
+        } else {
+
+          throw Exception(
+            "Server Error ${response.statusCode}",
+          );
+        }
+
+      } catch (e) {
+
+        throw Exception(
+          "Cart fetch failed: $e",
+        );
+      }
+    }
+
+  Future<ProductDetailsResponse>
+  getProductDetails(
+      String selfId,
+      String productId,
+      ) async {
+
+    try {
+
+      final response = await http.get(
+        Uri.parse(
+          ApiConstants.productDetails(
+            selfId,
+            productId,
+          ),
+        ),
+      );
+
+      if (response.statusCode == 200) {
+
+        final data =
+        jsonDecode(response.body);
+
+        if (data['status'] == true) {
+
+          return ProductDetailsResponse
+              .fromJson(data);
+
+        } else {
+
+          throw Exception(
+            data['message'],
+          );
+        }
+
+      } else {
+
+        throw Exception(
+          "Server Error ${response.statusCode}",
+        );
+      }
+
+    } catch (e) {
+
+      throw Exception(
+        "Product Details fetch failed: $e",
+      );
+    }
+  }
+
+
+  }
